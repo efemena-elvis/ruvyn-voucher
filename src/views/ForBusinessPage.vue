@@ -10,6 +10,7 @@
       <HeroBanner
         headline="Power Your Business with Vouchers"
         subheadline="The perfect solution for employee rewards, customer incentives, and reseller opportunities."
+        search-placeholder="Search for corporate rewards, bulk orders..."
       />
 
       <FeatureHighlight
