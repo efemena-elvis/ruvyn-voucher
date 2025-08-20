@@ -71,14 +71,14 @@ const router = createRouter({
       component: () => import('@/views/BrandsPage.vue'),
     },
     {
-      path: '/dispute',
-      name: 'dispute',
-      component: () => import('@/views/DisputePage.vue'),
+      path: '/verify-voucher',
+      name: 'verify-voucher',
+      component: () => import('@/views/VerifyVoucherPage.vue'),
     },
     {
-      path: '/dispute/success',
-      name: 'dispute-success',
-      component: () => import('@/views/DisputeSuccessPage.vue'),
+      path: '/verify-voucher/success',
+      name: 'verify-voucher-success',
+      component: () => import('@/views/VoucherSuccessPage.vue'),
     },
   ],
 })

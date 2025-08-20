@@ -33,9 +33,10 @@ interface SocialLink {
 export const navigation = {
   logoText: 'RUVYN',
   navLinks: <NavLink[]>[
-    { text: 'Categories', url: '/categories' }, // Note: We haven't built this page, but the link is ready.
-    { text: 'Brands', url: '/brands' }, // Note: We haven't built this page, but the link is ready.
+    { text: 'Categories', url: '/categories' },
+    { text: 'Brands', url: '/brands' },
     { text: 'For Business', url: '/for-business' },
+    { text: 'Verify voucher', url: '/verify-voucher' },
   ],
   userActions: <UserAction[]>[
     { text: 'Sign In', url: '/signin' },
@@ -52,7 +53,7 @@ export const footer = {
       links: [
         { text: 'For Business', url: '/for-business' },
         { text: 'Contact Us', url: '/contact' },
-        { text: 'Resolve dispute', url: '/dispute' },
+        { text: 'Verify voucher', url: '/verify-voucher' },
       ],
     },
     {
@@ -68,5 +69,5 @@ export const footer = {
     { platform: 'Facebook', url: 'https://facebook.com' },
     { platform: 'LinkedIn', url: 'https://linkedin.com' },
   ],
-  copyrightText: `© ${new Date().getFullYear()} VoucherHub. All rights reserved.`,
+  copyrightText: `© ${new Date().getFullYear()} RUVYN. All rights reserved.`,
 }

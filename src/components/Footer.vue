@@ -4,7 +4,7 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <!-- Brand Info Column -->
         <div class="col-span-1 md:col-span-1">
-          <h3 class="text-2xl font-bold">VoucherHub</h3>
+          <h3 class="text-2xl font-bold">RUVYN</h3>
           <p class="mt-2 text-neutral-300 text-sm">
             Your one-stop marketplace for digital Voucher cards in South Africa.
           </p>

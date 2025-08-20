@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-background-default shadow-md w-full">
+  <header class="bg-background-default shadow-md w-full relative z-10">
     <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center gap-x-2 group">
