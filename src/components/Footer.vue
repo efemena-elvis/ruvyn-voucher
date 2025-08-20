@@ -6,7 +6,7 @@
         <div class="col-span-1 md:col-span-1">
           <h3 class="text-2xl font-bold">VoucherHub</h3>
           <p class="mt-2 text-neutral-300 text-sm">
-            Your one-stop marketplace for digital gift cards in Nigeria.
+            Your one-stop marketplace for digital Voucher cards in South Africa.
           </p>
         </div>
 

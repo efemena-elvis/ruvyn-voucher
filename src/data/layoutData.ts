@@ -31,7 +31,7 @@ interface SocialLink {
 // --- NAVIGATION DATA ---
 // A single source of truth for the main site navigation.
 export const navigation = {
-  logoText: 'VoucherHub',
+  logoText: 'RUVYN',
   navLinks: <NavLink[]>[
     { text: 'Categories', url: '/categories' }, // Note: We haven't built this page, but the link is ready.
     { text: 'Brands', url: '/brands' }, // Note: We haven't built this page, but the link is ready.

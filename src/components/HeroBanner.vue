@@ -30,6 +30,7 @@
           <input
             type="search"
             class="w-full py-4 pl-14 pr-6 text-base text-text-primary bg-white border border-transparent rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+            @input="handleInput"
             :placeholder="searchPlaceholder"
           />
         </div>
@@ -40,10 +41,19 @@
 
 <script setup lang="ts">
 // --- PROPS ---
-// Add a new prop for the search placeholder
 defineProps<{
   headline: string
   subheadline: string
   searchPlaceholder: string
 }>()
+
+// Define the event this component can emit
+const emit = defineEmits<{
+  (e: 'update:search', value: string): void
+}>()
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('update:search', target.value)
+}
 </script>

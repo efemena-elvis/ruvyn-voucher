@@ -12,7 +12,7 @@
         :subtotal="order.subtotal"
         :fees="order.fees"
         :total="order.total"
-        currency="NGN"
+        currency="ZAR"
       />
 
       <!-- Primary Action -->
@@ -32,20 +32,43 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 import OrderSummary from '@/components/OrderSummary.vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { findVoucherById, type Voucher } from '@/data/voucherData'
 
 // --- DEFINE PAGE-SPECIFIC DATA ---
-// Mock data for the current order. In a real app, this would come from a state management store (like Pinia).
-const order = {
-  items: [{ id: 1, name: 'Spotify Premium - 1 Month', price: 2500 }],
-  subtotal: 2500,
-  fees: 125,
-  total: 2625,
-}
+// Use refs to hold the dynamic order data
+const order = ref({
+  items: [] as { id: number; name: string; price: number }[],
+  subtotal: 0,
+  fees: 0,
+  total: 0,
+})
 
 // --- LOGIC ---
 const router = useRouter()
+const route = useRoute()
+
+onMounted(() => {
+  // Read data from the URL query
+  const voucherId = parseInt(route.query.voucherId as string)
+  const amount = parseInt(route.query.amount as string)
+
+  if (!isNaN(voucherId) && !isNaN(amount)) {
+    const voucher = findVoucherById(voucherId)
+    if (voucher) {
+      // Build the order summary dynamically
+      const fees = Math.round(amount * 0.05) // Calculate a 5% fee
+      order.value = {
+        items: [{ id: voucher.id, name: voucher.title, price: amount }],
+        subtotal: amount,
+        fees: fees,
+        total: amount + fees,
+      }
+    }
+  }
+})
 
 const proceedToPayment = () => {
   console.log('Simulating payment processing...')

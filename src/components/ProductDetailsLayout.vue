@@ -34,16 +34,32 @@
               >
                 {{ formatCurrency(option) }}
               </button>
+
+              <!-- Custom Amount Input -->
+              <div v-if="allowsCustomAmount" class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">R</span>
+                <input
+                  type="number"
+                  placeholder="Custom"
+                  v-model="customAmountValue"
+                  @focus="selectCustomAmount"
+                  @input="selectCustomAmount"
+                  class="w-32 px-6 py-3 pl-7 border-2 rounded-lg transition-colors focus:border-primary-500 focus:outline-none"
+                  :class="isCustomAmountActive ? 'border-primary-600' : 'border-neutral-300'"
+                />
+              </div>
             </div>
           </div>
 
           <!-- Action Button -->
           <div class="mt-auto pt-8">
             <button
+              @click="handleCheckout"
               class="w-full py-4 text-lg font-semibold rounded-lg bg-primary-600 text-text-on-primary hover:bg-primary-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
             >
               {{ ctaText }}
             </button>
+
             <p class="mt-4 text-xs text-text-secondary text-center">{{ terms }}</p>
           </div>
         </div>
@@ -53,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // --- TYPE DEFINITIONS ---
 // None needed for props, but useful for state
@@ -61,23 +77,47 @@ type Amount = number | null
 
 // --- PROPS ---
 const props = defineProps<{
+  id: number
   brandName: string
   voucherTitle: string
   imageUrl: string
   description: string
   priceOptions: number[]
+  allowsCustomAmount: boolean
   terms: string
   ctaText: string
 }>()
 
-// --- COMPOSITION API: STATE ---
-// `ref` is used to manage the currently selected price amount.
-// It's initialized with the first option available.
-const selectedAmount = ref<Amount>(props.priceOptions[0] || null)
+const emit = defineEmits<{
+  (e: 'checkout', payload: { voucherId: number; amount: number }): void
+}>()
 
-// --- COMPOSITION API UTILITY ---
-const formatCurrency = (amount: number, currencyCode: string = 'NGN') => {
-  return new Intl.NumberFormat('en-NG', {
+const selectedAmount = ref<number>(props.priceOptions[0] || 0)
+const customAmountValue = ref<number | null>(null)
+
+const isCustomAmountActive = computed(
+  () => selectedAmount.value === customAmountValue.value && customAmountValue.value !== null,
+)
+
+const selectPresetAmount = (amount: number) => {
+  selectedAmount.value = amount
+  customAmountValue.value = null // Clear custom input when preset is clicked
+}
+
+const selectCustomAmount = () => {
+  selectedAmount.value = customAmountValue.value || 0
+}
+
+const handleCheckout = () => {
+  if (selectedAmount.value > 0) {
+    emit('checkout', { voucherId: props.id, amount: selectedAmount.value })
+  } else {
+    alert('Please select or enter an amount.')
+  }
+}
+
+const formatCurrency = (amount: number, currencyCode: string = 'ZAR') => {
+  return new Intl.NumberFormat('en-ZA', {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 0,
