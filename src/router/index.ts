@@ -70,6 +70,16 @@ const router = createRouter({
       name: 'brands',
       component: () => import('@/views/BrandsPage.vue'),
     },
+    {
+      path: '/dispute',
+      name: 'dispute',
+      component: () => import('@/views/DisputePage.vue'),
+    },
+    {
+      path: '/dispute/success',
+      name: 'dispute-success',
+      component: () => import('@/views/DisputeSuccessPage.vue'),
+    },
   ],
 })
 

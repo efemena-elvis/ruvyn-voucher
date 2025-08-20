@@ -51,7 +51,8 @@ export const footer = {
       title: 'Company',
       links: [
         { text: 'For Business', url: '/for-business' },
-        { text: 'Contact Us', url: '/contact' }, // Placeholder link
+        { text: 'Contact Us', url: '/contact' },
+        { text: 'Resolve dispute', url: '/dispute' },
       ],
     },
     {
