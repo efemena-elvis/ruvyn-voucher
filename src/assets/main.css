@@ -29,10 +29,8 @@
   --color-background-default: #ffffff;
   --color-background-subtle: #f9fafb;
 
-  /* Typography */
-  --font-family-sans: 'Inter', 'ui-sans-serif', 'system-ui', sans-serif;
-
-  /* Spacing, Radius, etc. can be handled directly in Tailwind config */
+  /* Typography - UPDATE THIS LINE */
+  --font-family-sans: 'Noto Sans', 'ui-sans-serif', 'system-ui', sans-serif;
 }
 
 /* Apply base styles */

@@ -69,5 +69,6 @@ export const footer = {
     { platform: 'Facebook', url: 'https://facebook.com' },
     { platform: 'LinkedIn', url: 'https://linkedin.com' },
   ],
+  address: '4 Cade Street, Southcrest, Alberton',
   copyrightText: `© ${new Date().getFullYear()} RUVYN. All rights reserved.`,
 }

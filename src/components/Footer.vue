@@ -32,16 +32,16 @@
       >
         <p class="text-sm text-neutral-400">{{ copyrightText }}</p>
         <div class="flex mt-4 md:mt-0 space-x-6">
-          <a
+          <div class="address-text text-neutral-400">4 Cade Street, Southcrest, Alberton</div>
+          <!-- <a
             v-for="social in socialLinks"
             :key="social.platform"
             :href="social.url"
             target="_blank"
             class="text-neutral-400 hover:text-white transition-colors"
           >
-            <!-- In a real app, these would be SVG icons -->
             <span>{{ social.platform }}</span>
-          </a>
+          </a> -->
         </div>
       </div>
     </div>

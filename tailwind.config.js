@@ -25,7 +25,7 @@ export default {
         'background-subtle': 'var(--color-background-subtle)',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Noto Sans', 'sans-serif'],
       },
     },
   },
