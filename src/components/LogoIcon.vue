@@ -14,7 +14,7 @@
       <!-- The single shape in the lighter color that forms the 'R' with negative space -->
       <path
         d="M 30 35 H 55 Q 70 35 70 50 Q 70 65 55 65 H 50 L 70 80 H 55 L 35 65 H 30 Z"
-        fill="var(--color-primary-600)"
+        fill="var(--color-primary-100)"
       />
     </g>
   </svg>
