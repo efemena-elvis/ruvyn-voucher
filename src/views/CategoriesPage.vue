@@ -5,7 +5,6 @@
       :nav-links="navigation.navLinks"
       :user-actions="navigation.userActions"
     />
-
     <main class="container mx-auto px-6 py-20">
       <div class="text-center max-w-3xl mx-auto">
         <h1 class="text-4xl font-extrabold text-text-primary tracking-tight">Browse by Category</h1>
@@ -13,12 +12,11 @@
           Find the perfect voucher by exploring our curated categories.
         </p>
       </div>
-
       <div class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <RouterLink
-          v-for="category in categories"
-          :key="category.name"
-          :to="{ name: 'home', query: { category: category.name } }"
+          v-for="category in categoryList"
+          :key="category.slug"
+          :to="{ name: 'home', query: { category: category.slug } }"
           class="group block aspect-square p-6 rounded-xl text-white transition-all duration-300 hover:scale-105"
           :style="{ backgroundColor: category.color }"
         >
@@ -31,7 +29,6 @@
         </RouterLink>
       </div>
     </main>
-
     <Footer
       :link-columns="footer.linkColumns"
       :social-links="footer.socialLinks"
@@ -46,30 +43,15 @@ import NavigationBar from '@/components/NavigationBar.vue'
 import Footer from '@/components/Footer.vue'
 import { navigation, footer } from '@/data/layoutData'
 import { allVouchers } from '@/data/voucherData'
+import { categories, getSlugsForParentCategory } from '@/data/categoryData'
 
-// This logic dynamically generates category data from our central voucher source
-const categoryColors: Record<string, string> = {
-  'Most Popular': '#4f46e5',
-  Featured: '#0d9488',
-  Entertainment: '#ca8a04',
-  'Food & Drink': '#c2410c',
-  Travel: '#0e7490',
-  'Just Added': '#be185d',
-}
-
-const categoryCounts = allVouchers.reduce(
-  (acc, voucher) => {
-    if (voucher.category) {
-      acc[voucher.category] = (acc[voucher.category] || 0) + 1
-    }
-    return acc
-  },
-  {} as Record<string, number>,
-)
-
-const categories = Object.keys(categoryCounts).map((name) => ({
-  name,
-  count: categoryCounts[name],
-  color: categoryColors[name] || '#64748b',
-}))
+// This logic dynamically generates the category list with counts
+const categoryList = categories.map((category) => {
+  const relevantSlugs = getSlugsForParentCategory(category.slug)
+  const count = allVouchers.filter((v) => relevantSlugs.includes(v.categorySlug)).length
+  return {
+    ...category,
+    count,
+  }
+})
 </script>

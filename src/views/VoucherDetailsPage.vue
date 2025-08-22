@@ -6,22 +6,32 @@
       :user-actions="navigation.userActions"
     />
 
+    <!-- Only render the layout if we successfully found the voucher data -->
     <main v-if="voucherData">
       <ProductDetailsLayout
         :id="voucherData.id"
         :brand-name="voucherData.title"
-        :voucher-title="voucherData.title"
+        :brand-logo="`https://logo.clearbit.com/${getDomain(voucherData.title)}`"
+        :voucher-title="voucherData.description"
         :image-url="voucherData.brandImage"
-        :description="voucherData.description"
+        :description="`This digital voucher provides a prepaid balance that can be used for ${voucherData.title} services. Perfect for personal use or as a convenient reward.`"
         :price-options="voucherData.priceOptions"
         :allows-custom-amount="voucherData.allowsCustomAmount"
-        terms="Terms and conditions apply."
+        terms="Vouchers are non-refundable and subject to the merchant's terms and conditions."
         cta-text="Proceed to Checkout"
         @checkout="handlePurchase"
       />
     </main>
-    <div v-else class="text-center py-20">
-      <p>Voucher not found.</p>
+    <!-- Show a "not found" message if the voucher ID is invalid -->
+    <div v-else class="text-center py-24">
+      <h1 class="text-2xl font-bold">Voucher Not Found</h1>
+      <p class="text-text-secondary mt-2">The voucher you are looking for does not exist.</p>
+      <RouterLink
+        to="/"
+        class="mt-6 inline-block px-6 py-3 text-base font-semibold rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+      >
+        Back to Home
+      </RouterLink>
     </div>
 
     <Footer
@@ -33,33 +43,36 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, type Ref } from 'vue'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { findVoucherById, type Voucher } from '@/data/voucherData'
 import NavigationBar from '@/components/NavigationBar.vue'
 import ProductDetailsLayout from '@/components/ProductDetailsLayout.vue'
 import Footer from '@/components/Footer.vue'
-import { navigation, footer } from '@/data/layoutData' // Centralized layout data
-import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted, type Ref } from 'vue'
-import { findVoucherById, type Voucher } from '@/data/voucherData'
+import { navigation, footer } from '@/data/layoutData'
 
 const route = useRoute()
 const router = useRouter()
 
-// Mock data for the voucher. In a real app, this would be fetched from an API.
 const voucherData: Ref<Voucher | undefined> = ref()
 
+// --- DYNAMIC DATA FETCHING ---
 onMounted(() => {
-  // Read the ID from the URL, convert it to a number
   const voucherId = parseInt(route.params.id as string)
   if (!isNaN(voucherId)) {
-    // Find the voucher data from our central source
     voucherData.value = findVoucherById(voucherId)
   }
 })
 
-// This handler is triggered by the 'ctaClick' event from the child component.
+// --- HELPER FUNCTION FOR LOGOS ---
+// A simple helper to guess a domain for the Clearbit logo API
+const getDomain = (brandTitle: string) => {
+  return `${brandTitle.toLowerCase().replace(/\s+/g, '')}.com`
+}
+
+// --- NAVIGATION HANDLER ---
 const handlePurchase = (payload: { voucherId: number; amount: number }) => {
   console.log('Proceeding to checkout with:', payload)
-  // Navigate to the checkout page with the data as query parameters
   router.push({
     name: 'checkout',
     query: {

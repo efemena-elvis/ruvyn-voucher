@@ -1,7 +1,7 @@
 <template>
   <section class="bg-background-default">
     <div class="container mx-auto px-6 py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-10">
         <!-- Left Column: Image Gallery -->
         <div>
           <img
@@ -13,18 +13,29 @@
 
         <!-- Right Column: Details & Actions -->
         <div class="flex flex-col">
-          <h2 class="text-lg font-semibold text-primary-600">{{ brandName }}</h2>
-          <h1 class="text-4xl font-extrabold text-text-primary mt-1">{{ voucherTitle }}</h1>
-          <p class="mt-4 text-lg text-text-secondary leading-relaxed">{{ description }}</p>
+          <!-- NEW: Brand Logo & Title Area -->
+          <div class="flex items-center gap-x-4">
+            <img
+              :src="brandLogo"
+              :alt="brandName"
+              class="h-16 w-16 rounded-full object-contain border border-neutral-200 p-1"
+            />
+            <div>
+              <h2 class="text-lg font-semibold text-text-secondary">{{ brandName }}</h2>
+              <h1 class="text-4xl font-extrabold text-text-primary -mt-1">{{ voucherTitle }}</h1>
+            </div>
+          </div>
+
+          <p class="mt-6 text-lg text-text-secondary leading-relaxed">{{ description }}</p>
 
           <!-- Price/Amount Selector -->
           <div class="mt-8">
             <label class="block text-sm font-semibold text-text-primary mb-2">Choose Amount</label>
-            <div class="flex flex-wrap gap-3">
+            <div class="flex flex-wrap gap-3 items-center">
               <button
                 v-for="option in priceOptions"
                 :key="option"
-                @click="selectedAmount = option"
+                @click="selectPresetAmount(option)"
                 :class="[
                   'px-6 py-3 rounded-lg font-semibold border-2 transition-colors',
                   selectedAmount === option
@@ -35,7 +46,6 @@
                 {{ formatCurrency(option) }}
               </button>
 
-              <!-- Custom Amount Input -->
               <div v-if="allowsCustomAmount" class="relative">
                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">R</span>
                 <input
@@ -55,11 +65,11 @@
           <div class="mt-auto pt-8">
             <button
               @click="handleCheckout"
-              class="w-full py-4 text-lg font-semibold rounded-lg bg-primary-600 text-text-on-primary hover:bg-primary-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+              :disabled="selectedAmount <= 0"
+              class="w-full py-4 text-lg font-semibold rounded-lg bg-primary-600 text-text-on-primary hover:bg-primary-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:bg-neutral-300 disabled:cursor-not-allowed"
             >
               {{ ctaText }}
             </button>
-
             <p class="mt-4 text-xs text-text-secondary text-center">{{ terms }}</p>
           </div>
         </div>
@@ -69,16 +79,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
 
-// --- TYPE DEFINITIONS ---
-// None needed for props, but useful for state
-type Amount = number | null
-
-// --- PROPS ---
 const props = defineProps<{
   id: number
   brandName: string
+  brandLogo: string // <-- NEW PROP
   voucherTitle: string
   imageUrl: string
   description: string
@@ -101,7 +107,7 @@ const isCustomAmountActive = computed(
 
 const selectPresetAmount = (amount: number) => {
   selectedAmount.value = amount
-  customAmountValue.value = null // Clear custom input when preset is clicked
+  customAmountValue.value = null
 }
 
 const selectCustomAmount = () => {
