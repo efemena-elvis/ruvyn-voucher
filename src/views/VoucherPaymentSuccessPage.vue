@@ -21,41 +21,41 @@
           ></path>
         </svg>
       </div>
-      <h1 class="text-3xl font-extrabold text-text-primary">Voucher Verified!</h1>
+      <h1 class="text-3xl font-extrabold text-text-primary">Payment Verified!</h1>
       <p class="mt-3 text-base text-text-secondary">
-        This voucher is valid and ready to be used. Below are the details associated with your code.
+        We have successfully located your transaction. Below are the details for your records.
       </p>
 
       <div class="mt-8 bg-white p-6 rounded-lg border border-gray-200 text-left space-y-4">
-        <h2 class="font-semibold text-text-primary text-center mb-4">Voucher Status</h2>
+        <h2 class="font-semibold text-text-primary text-center mb-4">Transaction Status</h2>
         <div class="flex justify-between">
-          <span class="text-neutral-600">Brand:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult.brand }}</span>
+          <span class="text-neutral-600">Reference ID:</span>
+          <span class="font-semibold text-text-primary">{{ verificationResult.referenceId }}</span>
         </div>
         <div class="flex justify-between">
-          <span class="text-neutral-600">Current Balance:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult.balance }}</span>
+          <span class="text-neutral-600">Amount Paid:</span>
+          <span class="font-semibold text-text-primary">{{ verificationResult.amount }}</span>
         </div>
         <div class="flex justify-between">
-          <span class="text-neutral-600">Expires On:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult.expiryDate }}</span>
+          <span class="text-neutral-600">Date:</span>
+          <span class="font-semibold text-text-primary">{{ verificationResult.date }}</span>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-neutral-600">Status:</span>
           <span
             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
           >
-            Active
+            Successful
           </span>
         </div>
       </div>
 
       <div class="mt-8">
         <RouterLink
-          to="/verify-voucher"
+          to="/verify-payment"
           class="px-8 py-3 text-base font-semibold rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm"
         >
-          Verify Another Voucher
+          Verify Another Payment
         </RouterLink>
       </div>
     </div>
@@ -66,10 +66,10 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-// Mock data for a successful verification result.
+// Mock data for a successful payment verification result.
 const verificationResult = ref({
-  brand: 'Spotify Premium',
-  balance: 'ZAR 2500.00',
-  expiryDate: '15 Aug, 2026',
+  referenceId: 'RUVN-123XYZ',
+  amount: 'ZAR 2500.00',
+  date: '18 Aug, 2025',
 })
 </script>

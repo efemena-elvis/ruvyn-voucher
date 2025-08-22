@@ -36,7 +36,7 @@ export const navigation = {
     { text: 'Categories', url: '/categories' },
     { text: 'Brands', url: '/brands' },
     { text: 'For Business', url: '/for-business' },
-    { text: 'Verify voucher', url: '/verify-voucher' },
+    { text: 'Verify Payment', url: '/verify-payment' },
   ],
   userActions: <UserAction[]>[
     { text: 'Sign In', url: '/signin' },
@@ -53,7 +53,7 @@ export const footer = {
       links: [
         { text: 'For Business', url: '/for-business' },
         { text: 'Contact Us', url: '/contact' },
-        { text: 'Verify voucher', url: '/verify-voucher' },
+        { text: 'Verify Payment', url: '/verify-payment' },
       ],
     },
     {

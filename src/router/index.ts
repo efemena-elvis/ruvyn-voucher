@@ -71,14 +71,14 @@ const router = createRouter({
       component: () => import('@/views/BrandsPage.vue'),
     },
     {
-      path: '/verify-voucher',
-      name: 'verify-voucher',
-      component: () => import('@/views/VerifyVoucherPage.vue'),
+      path: '/verify-payment',
+      name: 'verify-payment',
+      component: () => import('@/views/VerifyPaymentPage.vue'),
     },
     {
-      path: '/verify-voucher/success',
-      name: 'verify-voucher-success',
-      component: () => import('@/views/VoucherSuccessPage.vue'),
+      path: '/verify-payment/success',
+      name: 'verify-payment-success',
+      component: () => import('@/views/VoucherPaymentSuccessPage.vue'),
     },
   ],
 })
