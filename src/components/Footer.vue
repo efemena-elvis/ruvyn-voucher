@@ -33,7 +33,7 @@
         <p class="text-sm text-neutral-400">{{ copyrightText }}</p>
         <div class="flex mt-4 md:mt-0 space-x-6">
           <div class="address-text text-neutral-400 text-[15px]">
-            4 Cade Street, Southcrest, Alberton
+            50 Maynard St, Gardens, Cape Town, 8001
           </div>
           <!-- <a
             v-for="social in socialLinks"
@@ -74,5 +74,6 @@ defineProps<{
   linkColumns: FooterColumn[]
   socialLinks: SocialLink[]
   copyrightText: string
+  address: string
 }>()
 </script>
