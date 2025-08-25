@@ -74,6 +74,5 @@ defineProps<{
   linkColumns: FooterColumn[]
   socialLinks: SocialLink[]
   copyrightText: string
-  address: string
 }>()
 </script>
