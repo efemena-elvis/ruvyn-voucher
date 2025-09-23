@@ -39,13 +39,31 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
 import NavigationBar from '@/components/NavigationBar.vue'
 import Footer from '@/components/Footer.vue'
 import { navigation, footer } from '@/data/layoutData'
 import { allVouchers } from '@/data/voucherData'
 import { categories, getSlugsForParentCategory } from '@/data/categoryData'
 
-// This logic dynamically generates the category list with counts
+
+// import { useVouchersStore } from '@/stores/vouchers'
+
+// const vouchersStore = useVouchersStore()
+
+// const categories = ref([])
+
+// const fetchCategories = async () => {
+//   const response = await vouchersStore.getAllCategories()
+//   if (response.status === 200) {
+//     categories.value = response.data
+//   } else {
+//     console.error("Failed to fetch categories:", response.message)
+//   }
+// }
+
+// fetchCategories()
+
 const categoryList = categories.map((category) => {
   const relevantSlugs = getSlugsForParentCategory(category.slug)
   const count = allVouchers.filter((v) => relevantSlugs.includes(v.categorySlug)).length

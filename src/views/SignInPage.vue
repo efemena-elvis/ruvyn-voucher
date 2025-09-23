@@ -7,6 +7,7 @@
       submit-button-text="Sign In"
       :secondary-link="secondaryLink"
       @submit="handleSignIn"
+      :isLoading="isLoading"
     />
   </div>
 </template>
@@ -14,13 +15,21 @@
 <script setup lang="ts">
 import AuthenticationForm from '@/components/AuthenticationForm.vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { toast } from 'vue3-toastify'
+import { ref } from 'vue'
+
+const authStore = useAuthStore()
+
+const isLoading = ref(false)
+
 
 // --- DEFINE COMPONENT PROPS ---
 const signInFields = [
   {
     name: 'email',
     label: 'Email Address',
-    type: 'email' as const, // Use 'as const' for strict typing
+    type: 'email' as const, 
     placeholder: 'you@example.com',
   },
   {
@@ -37,21 +46,42 @@ const secondaryLink = {
   ctaText: 'Register Now',
 }
 
-// --- LOGIC ---
 const router = useRouter()
 
-// The handleSignIn function receives the form data emitted from the child component.
-const handleSignIn = (formData: Record<string, string>) => {
-  console.log('--- Sign In Attempt ---')
-  console.log(formData)
+const handleSignIn = async (formData: Record<string, string>) => {
+  try {
+        isLoading.value = true
+    const response = await authStore.loginUser(formData);
 
-  // In a real app, you would:
-  // 1. Send formData to your authentication API.
-  // 2. On success, store the token and redirect.
-  // 3. On failure, display an error message.
+    if (response.status === 200) {
+      toast.success("Login successful!", {
+        autoClose: 3000,
+          onClose: () => {
+    router.push("/dashboard");
+  },
+        position: toast.POSITION.TOP_RIGHT,
+      });
 
-  // For the prototype, we'll simulate a successful login and redirect to the dashboard.
-  alert(`Simulating login for: ${formData.email}`)
-  router.push('/dashboard')
-}
+
+      localStorage.setItem("auth_token", response.data.token);
+      localStorage.setItem("auth_user", JSON.stringify(response.data.user));
+    } else {
+    
+      toast.error(response.data.error || "Login failed", {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  } catch (err: any) {
+   
+    toast.error(err.message || "Something went wrong", {
+      autoClose: 3000,
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+  finally {
+        isLoading.value = false
+    }
+};
+
 </script>

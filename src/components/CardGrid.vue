@@ -4,11 +4,12 @@
     <VoucherCard
       v-for="card in cards"
       :key="card.id"
-      :title="card.title"
-      :brand-image="card.brandImage"
+      :title="card.name"
+      :brand-image="card.image_url"
       :description="card.description"
       :url="card.url"
       :category="card.category"
+      :id="card.id"
     />
   </div>
   <div v-else class="text-center py-10">
@@ -17,21 +18,32 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue'
 import VoucherCard from './VoucherCard.vue'
 
 // --- TYPE DEFINITIONS (UPDATED) ---
 // This interface is updated to match the new props of VoucherCard.vue
 interface CardData {
   id: string | number
-  title: string
-  brandImage: string
+  name: string
+  image_url: string
   description: string
   url: string
-  category?: string
+  category: {
+    name: string;
+    [key: string]: any
+  }
 }
 
 // --- PROPS ---
-defineProps<{
+const props = defineProps<{
   cards: CardData[]
 }>()
+
+// watch(
+//   () => props.cards,
+//   (newCards) => {
+//     console.log(newCards)
+//   },
+// )
 </script>

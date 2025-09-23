@@ -4,9 +4,13 @@
       <component :is="Component" />
     </router-view>
   </div>
+  <toastContainers />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { toastContainers } from 'vue3-toastify'
+
+</script>
 
 <style lang="scss">
 html,

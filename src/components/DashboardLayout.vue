@@ -1,14 +1,20 @@
 <template>
   <div class="flex min-h-screen bg-background-subtle">
     <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-neutral-800 text-white flex-shrink-0 flex flex-col p-4">
-      <div class="text-2xl font-bold text-white mb-8 px-2">VoucherHub</div>
-      <nav class="flex-grow">
+    <aside class="flex flex-col flex-shrink-0 w-64 p-4 text-white bg-neutral-800">
+       <RouterLink to="/" class="flex items-center gap-x-2 group mt-6">
+        <LogoIcon />
+        <span class="text-2xl font-bold text-white group-hover:opacity-80 transition-opacity">
+         RUVYN
+        </span>
+      </RouterLink>
+      <!-- <div class="px-2 mb-8 text-2xl font-bold text-white">VoucherHub</div> -->
+      <nav class="flex-grow mt-6">
         <ul>
           <li v-for="link in sidebarLinks" :key="link.name">
             <RouterLink
               :to="link.url"
-              class="flex items-center px-3 py-3 my-1 rounded-lg font-medium transition-colors"
+              class="flex items-center px-3 py-3 my-1 font-medium transition-colors rounded-lg"
               :class="
                 isLinkActive(link.name)
                   ? 'bg-primary-600 text-white'
@@ -29,10 +35,10 @@
     <!-- Main Content Area -->
     <main class="flex-1 p-6 md:p-10">
       <div class="container mx-auto">
-        <h1 class="text-3xl font-bold text-text-primary mb-8">{{ activeViewTitle }}</h1>
+        <h1 class="mb-8 text-3xl font-bold text-text-primary">{{ activeViewTitle }}</h1>
 
         <!-- Slot for page-specific content -->
-        <div class="bg-background-default p-6 rounded-lg shadow-sm">
+        <div class="p-6 rounded-lg ">
           <slot></slot>
         </div>
       </div>
@@ -41,26 +47,45 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { onMounted } from 'vue'
+import LogoIcon from './LogoIcon.vue'
 
-// --- TYPE DEFINITIONS ---
+
+
 interface SidebarLink {
-  name: string // The route name for matching
+  name: string 
   text: string
   url: string
 }
 
-// --- PROPS ---
+
 defineProps<{
   sidebarLinks: SidebarLink[]
   activeViewTitle: string
 }>()
 
-// --- COMPOSITION API: ROUTER AWARENESS ---
-// Access the current route to determine which link is active.
+const userStore = useAuthStore()
 const route = useRoute()
+const router = useRouter()
+
+
+
+onMounted(() => {
+  const token = localStorage.getItem('auth_token')
+  if (!token) {
+    router.push('/signin')
+  }
+
+
+})
+
+
+
 
 const isLinkActive = (routeName: string): boolean => {
   return route.name === routeName
 }
+
 </script>

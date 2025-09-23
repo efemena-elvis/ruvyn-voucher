@@ -1,5 +1,5 @@
 export interface Voucher {
-  id: number
+  id: number | string
   title: string
   brandImage: string
   description: string
@@ -269,7 +269,7 @@ export const allVouchers: Voucher[] = [
     description: 'Fuel for your journey',
     url: '/vouchers/28',
     categorySlug: 'travel',
-    priceOptions: [200, 500],
+    priceOptions: [200, 500], 
     allowsCustomAmount: true,
   },
 ]

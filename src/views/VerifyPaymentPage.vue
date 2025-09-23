@@ -21,40 +21,15 @@
 
             <div class="mt-6 space-y-5">
               <div>
-                <label for="transactionRef" class="block text-sm font-medium text-text-primary"
-                  >Transaction Reference</label
-                >
+                <label for="transactionRef" class="block text-sm font-medium text-text-primary">
+                  Transaction Reference
+                </label>
                 <input
+                  v-model="transaction_ref"
                   type="text"
-                  name="transactionRef"
                   id="transactionRef"
                   placeholder="e.g., RUVN-123XYZ"
-                  class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-neutral-300 rounded-md py-2.5"
-                />
-              </div>
-
-              <div>
-                <label for="email" class="block text-sm font-medium text-text-primary"
-                  >Email Used for Payment</label
-                >
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="you@example.com"
-                  class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-neutral-300 rounded-md py-2.5"
-                />
-              </div>
-
-              <div>
-                <label for="paymentDate" class="block text-sm font-medium text-text-primary"
-                  >Date of Payment</label
-                >
-                <input
-                  type="date"
-                  name="paymentDate"
-                  id="paymentDate"
-                  class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-neutral-300 rounded-md py-2.5"
+                  class="mt-1 focus:ring-primary-500 border border-grey-600 focus:border-primary-500 outline-none block w-full shadow-sm sm:text-sm border-neutral-300 rounded-md p-2.5"
                 />
               </div>
             </div>
@@ -74,15 +49,40 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NavigationBar from '@/components/NavigationBar.vue'
-import PaymentSidebar from '@/components/PaymentSidebar.vue' // <-- UPDATED IMPORT
+import PaymentSidebar from '@/components/PaymentSidebar.vue'
 import { navigation } from '@/data/layoutData'
+import { usePaymentStore } from '@/stores/payment'
+import { type PaymentResponse } from '@/stores/payment'
+import { useVouchersStore } from '@/stores/vouchers'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
+const paymentStore = usePaymentStore()
+const vouchersStore = useVouchersStore()
 
-const handleVerification = () => {
-  console.log('Verifying payment...')
-  router.push('/verify-payment/success')
+const transaction_ref = ref<string>('')
+
+const handleVerification = async () => {
+  try {
+    const response = await vouchersStore.verifyVoucher(transaction_ref.value)
+
+    if (response.status === 200) {
+      paymentStore.setPaymentResponse(response.data)
+
+      router.push('/verify-payment/success')
+    }
+
+    else{
+     toast.error(response.data.error || "Something went wrong", {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>

@@ -30,23 +30,27 @@
         <h2 class="font-semibold text-text-primary text-center mb-4">Transaction Status</h2>
         <div class="flex justify-between">
           <span class="text-neutral-600">Reference ID:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult.referenceId }}</span>
+          <span class="font-semibold text-text-primary">{{ verificationResult?.ref }}</span>
         </div>
         <div class="flex justify-between">
           <span class="text-neutral-600">Amount Paid:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult.amount }}</span>
+          <span class="font-semibold text-text-primary">{{ verificationResult?.amount }}</span>
         </div>
-        <div class="flex justify-between">
-          <span class="text-neutral-600">Date:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult.date }}</span>
-        </div>
+
         <div class="flex justify-between items-center">
           <span class="text-neutral-600">Status:</span>
-          <span
-            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
-          >
-            Successful
-          </span>
+        <span
+  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+  :class="{
+    'bg-green-100 text-green-800': verificationResult?.status === 'success',
+    'bg-red-100 text-red-800': verificationResult?.status === 'failed',
+    'bg-yellow-100 text-yellow-800': verificationResult?.status === 'pending',
+    'bg-gray-100 text-gray-800': !verificationResult?.status 
+  }"
+>
+  {{ verificationResult?.status }}
+</span>
+
         </div>
       </div>
 
@@ -63,13 +67,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-// Mock data for a successful payment verification result.
-const verificationResult = ref({
-  referenceId: 'RUVN-123XYZ',
-  amount: 'ZAR 2500.00',
-  date: '18 Aug, 2025',
-})
+import { usePaymentStore } from '@/stores/payment'
+
+const paymentStore = usePaymentStore()
+const verificationResult = paymentStore.paymentResponse
 </script>

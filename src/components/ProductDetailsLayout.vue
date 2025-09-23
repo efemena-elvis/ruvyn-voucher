@@ -15,14 +15,11 @@
         <div class="flex flex-col">
           <!-- NEW: Brand Logo & Title Area -->
           <div class="flex items-center gap-x-4">
-            <img
-              :src="brandLogo"
-              :alt="brandName"
-              class="h-16 w-16 rounded-full object-contain border border-neutral-200 p-1"
-            />
+           
             <div>
-              <h2 class="text-lg font-semibold text-text-secondary">{{ brandName }}</h2>
-              <h1 class="text-4xl font-extrabold text-text-primary -mt-1">{{ voucherTitle }}</h1>
+              <h1 class="text-4xl font-extrabold text-text-primary -mt-1">{{ brandName }}</h1>
+              <h2 class="text-lg font-semibold text-text-secondary">{{ voucherTitle }}</h2>
+              
             </div>
           </div>
 
@@ -84,7 +81,7 @@ import { ref, computed } from 'vue'
 const props = defineProps<{
   id: number
   brandName: string
-  brandLogo: string // <-- NEW PROP
+  brandLogo: string 
   voucherTitle: string
   imageUrl: string
   description: string
