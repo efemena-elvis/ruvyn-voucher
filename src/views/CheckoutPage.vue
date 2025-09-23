@@ -89,27 +89,26 @@ const proceedToPayment = async () => {
     return
   }
 
-   const response = await paymentStore.proceedToCheckout({
-      voucher_id: order.value.items[0].id,
-      amount: order.value.total
-    });
+  const response = await paymentStore.proceedToCheckout({
+    voucher_id: order.value.items[0].id,
+    amount: order.value.total,
+  })
   if (response.status === 200) {
-    toast.success('Payment Successful', {
+    window.location.href = response.data.payment_details.payment_link
+    toast.success('Payment initiated successfully', {
       autoClose: 3000,
       position: toast.POSITION.TOP_RIGHT,
-      
+
       onClose: () => {
-        window.location.href = response.data.payment_details.payment_link
-      
-        router.push('/payment/success')
+
+        // router.push('/payment/success')
       },
     })
-  
   } else {
-   toast.error(response.data.error || "Checkout failed", {
-        autoClose: 3000,
-        position: toast.POSITION.TOP_RIGHT,
-      });
+    toast.error(response.data.error || 'Checkout failed', {
+      autoClose: 3000,
+      position: toast.POSITION.TOP_RIGHT,
+    })
   }
 }
 </script>
