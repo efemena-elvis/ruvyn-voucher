@@ -17,13 +17,13 @@
       <div class="mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         <RouterLink
           v-for="brand in uniqueBrands"
-          :key="brand.id"
-          :to="brand.url"
+          :key="brand.ID"
+          :to="`/vouchers/${brand.ID}`"
           class="group block p-6 bg-neutral-50 rounded-lg border border-neutral-200 hover:border-primary-500 hover:shadow-md transition-all duration-300"
         >
           <img
-            :src="brand.brandImage.replace('400x225', '200x125')"
-            :alt="`${brand.title} Logo`"
+            :src="brand.image_url.replace('400x225', '200x125')"
+            :alt="`${brand.name} Logo`"
             class="h-16 w-full object-contain transition-transform duration-300 group-hover:scale-110"
           />
         </RouterLink>
@@ -40,11 +40,55 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
 import NavigationBar from '@/components/NavigationBar.vue'
 import Footer from '@/components/Footer.vue'
 import { navigation, footer } from '@/data/layoutData'
-import { allVouchers, type Voucher } from '@/data/voucherData'
+import { useVouchersStore } from '@/stores/vouchers'
 
-// This logic ensures we only display each brand once, even if they have multiple vouchers.
-const uniqueBrands = [...new Map(allVouchers.map((v) => [v.title, v])).values()]
+
+
+
+interface Voucher {
+  ID: number
+  name: string
+  title?: string | null
+  description: string
+  image_url: string
+  denominations: number[]  
+  is_custom_allowed: boolean
+  url?: string         
+  brandImage?: string       
+  brand?: {
+    name: string
+    [key: string]: any
+  }
+  category?: {
+    name: string
+    [key: string]: any
+  }
+}
+const allVouchers = ref<Voucher[]>([])
+const vouchersStore = useVouchersStore()
+
+const fetchVouchersList = async () => {
+  try {
+    const response = await vouchersStore.getVouchersList()
+    if (response.status === 200) {
+      allVouchers.value = response.data
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const uniqueBrands = computed(() => {
+  return [...new Map(allVouchers.value.map((v: Voucher) => [v.brand?.name, v])).values()]
+})
+
+onMounted(async () => {
+  await fetchVouchersList()
+  console.log(uniqueBrands.value)
+})
 </script>

@@ -31,6 +31,12 @@ const router = createRouter({
       component: () => import('@/views/VoucherDetailsPage.vue'),
     },
     {
+   
+      path: '/voucher/:id',
+      name: 'voucher-code',
+      component: () => import('@/views/VoucherCodePage.vue'),
+    },
+    {
       path: '/checkout',
       name: 'checkout',
       component: () => import('@/views/CheckoutPage.vue'),

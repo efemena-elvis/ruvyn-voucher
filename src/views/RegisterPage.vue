@@ -7,6 +7,7 @@
       submit-button-text="Create Account"
       :secondary-link="secondaryLink"
       @submit="handleRegister"
+      :isLoading="isLoading"
     />
   </div>
 </template>
@@ -14,11 +15,18 @@
 <script setup lang="ts">
 import AuthenticationForm from '@/components/AuthenticationForm.vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { toast } from 'vue3-toastify'
+import { ref } from 'vue'
 
-// --- DEFINE COMPONENT PROPS ---
+const authStore = useAuthStore()
+
+const isLoading = ref(false)
+
+
 const registerFields = [
   {
-    name: 'fullName',
+    name: 'full_name',
     label: 'Full Name',
     type: 'text' as const,
     placeholder: 'John Doe',
@@ -43,16 +51,35 @@ const secondaryLink = {
   ctaText: 'Sign In',
 }
 
-// --- LOGIC ---
 const router = useRouter()
 
-const handleRegister = (formData: Record<string, string>) => {
-  console.log('--- Registration Attempt ---')
-  console.log(formData)
+const handleRegister = async (formData: Record<string, string>) => {
+  try {
+        isLoading.value = true
+    const response = await authStore.registerUser(formData)
 
-  // In a real app, you would send this data to your registration API.
-  // For the prototype, we'll simulate success and redirect.
-  alert(`Simulating registration for: ${formData.email}`)
-  router.push('/dashboard') // Redirect to dashboard after successful registration
+    if (response.status === 201) {
+      toast.success('Registration successful!', {
+        autoClose: 3000,
+        onClose: () => {
+          router.push('/signin')
+        },
+        position: toast.POSITION.TOP_RIGHT,
+      })
+    } else {
+      toast.error(response.data.error || 'Registration failed', {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_RIGHT,
+      })
+    }
+  } catch (err: any) {
+    toast.error(err.error || 'Something went wrong', {
+      autoClose: 3000,
+      position: toast.POSITION.TOP_RIGHT,
+    })
+  }
+  finally {
+        isLoading.value = false
+    }
 }
 </script>

@@ -5,7 +5,7 @@
       title="Payment Successful!"
       message="Your voucher has been processed and delivered to your account. You can view and redeem it at any time from your dashboard."
     >
-      <!-- Content injected into the 'actions' slot of the StatusDisplay component -->
+   
       <template #actions>
         <div class="flex flex-col sm:flex-row gap-4">
           <RouterLink

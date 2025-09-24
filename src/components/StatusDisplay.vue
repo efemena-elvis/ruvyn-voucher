@@ -26,6 +26,10 @@
     <p class="mt-2 text-base text-text-secondary max-w-md">
       {{ message }}
     </p>
+    <div class="mt-4">
+      <p class="font-semibold">Transaction Reference:</p>
+      <p class="text-primary-600 text-[18px] font-bold">{{ payment_ref }}</p>
+    </div>
 
     <!-- Slot for actions -->
     <div class="mt-8">
@@ -47,6 +51,8 @@ const props = defineProps<{
   title: string
   message: string
 }>()
+
+const payment_ref = localStorage.getItem('payment_ref')
 
 // --- COMPOSITION API: COMPUTED ---
 // This computed property derives the correct styles and icon based on the `status` prop.

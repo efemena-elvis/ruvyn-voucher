@@ -50,7 +50,7 @@ export const categories: Category[] = [
 export const getSlugsForParentCategory = (parentSlug: string): string[] => {
   const parent = categories.find((c) => c.slug === parentSlug)
   if (!parent) return []
-  if (!parent.children) return [parent.slug] // It's a parent with no children
+  if (!parent.children) return [parent.name] // It's a parent with no children
 
-  return [parent.slug, ...parent.children.map((child) => child.slug)]
+  return [parent.slug, ...parent.children.map((child) => child.name)]
 }

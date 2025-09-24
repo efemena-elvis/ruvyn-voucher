@@ -47,9 +47,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { allVouchers } from '@/data/voucherData'
+// import { allVouchers } from '@/data/voucherData'
 import { categories, getSlugsForParentCategory } from '@/data/categoryData'
 import NavigationBar from '@/components/NavigationBar.vue'
 import HeroBanner from '@/components/HeroBanner.vue'
@@ -57,24 +57,50 @@ import CardGrid from '@/components/CardGrid.vue'
 import CTASection from '@/components/CTASection.vue'
 import Footer from '@/components/Footer.vue'
 import { navigation, footer } from '@/data/layoutData'
+import { useVouchersStore } from '@/stores/vouchers'
 
 const route = useRoute()
 const router = useRouter()
+const vouchersStore = useVouchersStore()
 
 // --- STATE FOR FILTERING ---
 const activeCategorySlug = ref('all')
 const searchQuery = ref('')
 
-// --- DYNAMIC FILTER BUTTONS ---
-// The special 'tags' now have dedicated slugs for clarity
+interface Voucher {
+  ID: string | number
+  name: string
+  image_url: string
+  description: string
+  url?: string
+  category: {
+    name: string
+    [key: string]: any
+  }
+  tags?: string[]
+}
+
+const allVouchers = ref<Voucher[]>([])
+
+const fetchVouchersList = async () => {
+  try {
+    const response = await vouchersStore.getVouchersList()
+    if (response.status === 200) {
+      allVouchers.value = response.data
+    } else {
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const filterButtons = [
   { slug: 'all', name: 'All' },
-  { slug: 'most-popular', name: 'Most Popular' },
-  { slug: 'featured', name: 'Featured' },
+  // { slug: 'most-popular', name: 'Most Popular' },
+  // { slug: 'featured', name: 'Featured' },
   ...categories.map((c) => ({ slug: c.slug, name: c.name })),
 ]
 
-// --- LOGIC TO SYNC STATE WITH URL ---
 watch(
   () => route.query.category,
   (newCategory) => {
@@ -89,30 +115,28 @@ const selectCategory = (slug: string) => {
   router.push({ query: { category: slug === 'all' ? undefined : slug } })
 }
 
-// --- COMPUTED FILTERING LOGIC (REVISED) ---
 const filteredVouchers = computed(() => {
-  let vouchers = allVouchers
+  let vouchers = allVouchers.value
 
-  // 1. Filter by category or tag
   if (activeCategorySlug.value !== 'all') {
-    // THIS IS THE FIX: Check for the special 'tag' slugs first
-    if (activeCategorySlug.value === 'most-popular') {
-      vouchers = vouchers.filter((v) => v.tags?.includes('Most Popular'))
-    } else if (activeCategorySlug.value === 'featured') {
-      vouchers = vouchers.filter((v) => v.tags?.includes('Featured'))
+    // if (activeCategorySlug.value === 'most-popular') {
+    //   vouchers = vouchers.filter((v) => v.category.name?.includes('Most Popular'))
+    // } else if (activeCategorySlug.value === 'featured') {
+    //   vouchers = vouchers.filter((v) => v.category.name?.includes('Featured'))
+    // } 
+     if (activeCategorySlug.value === 'utility-bills') {
+      vouchers = vouchers.filter((v) => v.category.name?.includes('Utilities & Bills'))
     } else {
-      // Otherwise, filter by the categorySlug as before
       const relevantSlugs = getSlugsForParentCategory(activeCategorySlug.value)
-      vouchers = vouchers.filter((v) => relevantSlugs.includes(v.categorySlug))
+      vouchers = vouchers.filter((v) => relevantSlugs.includes(v.category.name.toLowerCase()))
     }
   }
 
-  // 2. Filter by search query
   if (searchQuery.value.trim() !== '') {
     const lowerCaseQuery = searchQuery.value.toLowerCase()
     vouchers = vouchers.filter(
       (v) =>
-        v.title.toLowerCase().includes(lowerCaseQuery) ||
+        v.name.toLowerCase().includes(lowerCaseQuery) ||
         v.description.toLowerCase().includes(lowerCaseQuery),
     )
   }
@@ -120,20 +144,14 @@ const filteredVouchers = computed(() => {
   return vouchers
 })
 
-// --- DATA FORMATTING FOR CARDGRID ---
-// This is necessary because the VoucherCard component props changed
 const formattedVouchers = computed(() => {
   return filteredVouchers.value.map((v) => ({
-    id: v.id,
-    title: v.title,
-    brandImage: v.brandImage,
+    id: v.ID.toString(),
+    name: v.name,
+    image_url: v.image_url,
     description: v.description,
-    url: v.url,
-    category: v.tags?.includes('Most Popular')
-      ? 'Most Popular'
-      : v.tags?.includes('Featured')
-        ? 'Featured'
-        : undefined,
+    url: v.url || '#',
+    category: v.category
   }))
 })
 
@@ -149,4 +167,9 @@ const ctaData = [
     url: '/register',
   },
 ]
+
+onMounted(async () => {
+  await fetchVouchersList()
+
+})
 </script>

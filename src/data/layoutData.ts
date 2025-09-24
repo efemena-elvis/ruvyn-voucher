@@ -36,7 +36,7 @@ export const navigation = {
     { text: 'Categories', url: '/categories' },
     { text: 'Brands', url: '/brands' },
     { text: 'For Business', url: '/for-business' },
-    { text: 'Verify Payment', url: '/verify-payment' },
+    { text: 'Verify Voucher', url: '/verify-payment' },
   ],
   userActions: <UserAction[]>[
     { text: 'Sign In', url: '/signin' },

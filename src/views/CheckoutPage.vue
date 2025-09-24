@@ -35,10 +35,10 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import OrderSummary from '@/components/OrderSummary.vue'
-import { findVoucherById, type Voucher } from '@/data/voucherData'
+import { useVouchersStore } from '@/stores/vouchers'
+import { usePaymentStore } from '@/stores/payment'
+import { toast } from 'vue3-toastify'
 
-// --- DEFINE PAGE-SPECIFIC DATA ---
-// Use refs to hold the dynamic order data
 const order = ref({
   items: [] as { id: number; name: string; price: number }[],
   subtotal: 0,
@@ -46,22 +46,34 @@ const order = ref({
   total: 0,
 })
 
-// --- LOGIC ---
 const router = useRouter()
 const route = useRoute()
+const vouchersStore = useVouchersStore()
+const paymentStore = usePaymentStore()
 
-onMounted(() => {
-  // Read data from the URL query
+// Fetch a single voucher by ID
+const fetchSingleVoucher = async (id: number | string) => {
+  try {
+    const response = await vouchersStore.getSingleVoucher(id)
+    if (response.status === 200) {
+      return response.data
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+onMounted(async () => {
   const voucherId = parseInt(route.query.voucherId as string)
   const amount = parseInt(route.query.amount as string)
 
   if (!isNaN(voucherId) && !isNaN(amount)) {
-    const voucher = findVoucherById(voucherId)
+    const voucher = await fetchSingleVoucher(voucherId)
+
     if (voucher) {
-      // Build the order summary dynamically
-      const fees = Math.round(amount * 0.05) // Calculate a 5% fee
+      const fees = Math.round(amount * 0.05)
       order.value = {
-        items: [{ id: voucher.id, name: voucher.title, price: amount }],
+        items: [{ id: voucher.ID, name: voucher.name, price: amount }],
         subtotal: amount,
         fees: fees,
         total: amount + fees,
@@ -70,12 +82,33 @@ onMounted(() => {
   }
 })
 
-const proceedToPayment = () => {
-  console.log('Simulating payment processing...')
-  // In a real app, this is where you would integrate with the Paystack SDK.
-  // Upon a successful callback from the payment gateway, you would redirect.
+const proceedToPayment = async () => {
+  const token = localStorage.getItem('auth_token')
+  if (!token) {
+    router.push('/signin')
+    return
+  }
 
-  // For the prototype, we navigate directly to the success page.
-  router.push('/payment/success')
+  const response = await paymentStore.proceedToCheckout({
+    voucher_id: order.value.items[0].id,
+    amount: order.value.total,
+  })
+  if (response.status === 200) {
+    window.location.href = response.data.payment_details.payment_link
+    toast.success('Payment initiated successfully', {
+      autoClose: 3000,
+      position: toast.POSITION.TOP_RIGHT,
+
+      onClose: () => {
+
+        // router.push('/payment/success')
+      },
+    })
+  } else {
+    toast.error(response.data.error || 'Checkout failed', {
+      autoClose: 3000,
+      position: toast.POSITION.TOP_RIGHT,
+    })
+  }
 }
 </script>
