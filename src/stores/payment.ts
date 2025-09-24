@@ -22,7 +22,6 @@ export const usePaymentStore = defineStore("payment", () => {
 
    const paymentResponse = ref<PaymentResponse | null>(null);
 
-
   const setPaymentResponse = (response: PaymentResponse) => {
     paymentResponse.value = response;
   };

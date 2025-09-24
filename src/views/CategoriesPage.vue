@@ -17,8 +17,8 @@
           v-for="category in categoryList"
           :key="category.slug"
           :to="{ name: 'home', query: { category: category.slug } }"
-          class="group block aspect-square p-6 rounded-xl text-white transition-all duration-300 hover:scale-105"
-          :style="{ backgroundColor: category.color }"
+          class="group block aspect-square p-6 rounded-xl text-white transition-all duration-300 hover:scale-105 bg-[#c2410c]"
+          
         >
           <div class="flex flex-col h-full">
             <h3 class="font-bold text-2xl">{{ category.name }}</h3>
@@ -39,37 +39,81 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import NavigationBar from '@/components/NavigationBar.vue'
 import Footer from '@/components/Footer.vue'
-import { navigation, footer } from '@/data/layoutData'
-import { allVouchers } from '@/data/voucherData'
-import { categories, getSlugsForParentCategory } from '@/data/categoryData'
 
 
-// import { useVouchersStore } from '@/stores/vouchers'
 
-// const vouchersStore = useVouchersStore()
+import { useVouchersStore } from '@/stores/vouchers'
 
-// const categories = ref([])
 
-// const fetchCategories = async () => {
-//   const response = await vouchersStore.getAllCategories()
-//   if (response.status === 200) {
-//     categories.value = response.data
-//   } else {
-//     console.error("Failed to fetch categories:", response.message)
-//   }
-// }
+const vouchersStore = useVouchersStore()
 
-// fetchCategories()
-
-const categoryList = categories.map((category) => {
-  const relevantSlugs = getSlugsForParentCategory(category.slug)
-  const count = allVouchers.filter((v) => relevantSlugs.includes(v.categorySlug)).length
-  return {
-    ...category,
-    count,
+interface Voucher {
+  ID: string | number
+  name: string
+  image_url: string
+  description: string
+  url?: string
+  category: {
+    name: string
+    [key: string]: any
   }
+  tags?: string[]
+}
+
+const allVouchers = ref<Voucher[]>([])
+const categories = ref<any>([])
+
+const fetchVouchersList = async () => {
+  try {
+    const response = await vouchersStore.getVouchersList()
+    if (response.status === 200) {
+      allVouchers.value = response.data
+    } else {
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const fetchCategoriesList = async () => {
+  try { 
+    const response = await vouchersStore.getAllCategories()
+    if (response.status === 200) {
+      categories.value = response.data
+    } else {
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
+
+const categoryList = computed(() => {
+  return categories.value.map((category: any) => {
+    const count = allVouchers.value.filter(
+      (v) => category.name === v.category.name
+    ).length
+
+    return {
+      ...category,
+      count,
+    }
+  })
 })
+onMounted(async () => {
+ await fetchVouchersList()
+ await fetchCategoriesList()
+ 
+console.log(categoryList)
+
+})
+
+
+
+
 </script>

@@ -35,9 +35,17 @@ import { RouterLink } from 'vue-router'
 import { useVouchersStore } from '../stores/vouchers'
 import { onMounted, ref } from 'vue'
 
+
+type VoucherType = {
+  brand: string;
+  expiryDate:string;
+  status: string;
+  [key: string]: string
+}
+
 const vouchersStore = useVouchersStore()
 
-const purchasedVouchers = ref(null)
+const purchasedVouchers = ref<VoucherType[]>([])
 
 const fetchPurchasedVouchers = async () => {
   try {
@@ -62,7 +70,7 @@ onMounted(() => {
   fetchPurchasedVouchers()
 })
 
-// Mock data for user's purchased vouchers
+
 // const purchasedVouchers = [
   // { id: '1', brand: 'Spotify Premium', expiryDate: '15 Aug, 2026', status: 'Active' },
   // { id: '2', brand: 'Netflix', expiryDate: '20 Oct, 2025', status: 'Active' },

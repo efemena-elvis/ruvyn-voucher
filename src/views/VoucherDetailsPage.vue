@@ -100,7 +100,7 @@ onMounted(async () => {
   if (!isNaN(voucherId)) {
     await fetchSingleVoucher(voucherId)
   }
-  // console.log(voucherData.value)
+
 })
 
 const getDomain = (brandTitle: string) => {
@@ -109,7 +109,6 @@ const getDomain = (brandTitle: string) => {
 
 // Checkout 
 const handlePurchase = (payload: { voucherId: number; amount: number }) => {
-  // console.log('Proceeding to checkout with:', payload)
   router.push({
     name: 'checkout',
     query: {

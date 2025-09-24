@@ -37,7 +37,7 @@ export function useApi<T = any>() {
       return {
         status: err.response?.status || 500,
         data: err.response?.data || null,
-        message: err.message || "An error occurred",
+        message: err.error || "An error occurred",
       };
     }
   };

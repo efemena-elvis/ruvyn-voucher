@@ -23,8 +23,6 @@ const authStore = useAuthStore()
 
 const isLoading = ref(false)
 
-
-// --- DEFINE COMPONENT PROPS ---
 const signInFields = [
   {
     name: 'email',
@@ -74,7 +72,7 @@ const handleSignIn = async (formData: Record<string, string>) => {
     }
   } catch (err: any) {
    
-    toast.error(err.message || "Something went wrong", {
+    toast.error(err.error || "Something went wrong", {
       autoClose: 3000,
       position: toast.POSITION.TOP_RIGHT,
     });
