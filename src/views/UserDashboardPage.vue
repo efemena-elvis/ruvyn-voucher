@@ -8,10 +8,10 @@
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-neutral-200 rounded-lg"
       >
         <div>
-          <p class="font-bold text-text-primary">{{ voucher.brand }}</p>
-          <p class="text-sm text-text-secondary">Expires: {{ voucher.expiryDate }}</p>
+          <p class="font-bold text-text-primary">{{ voucher.brand.name }}</p>
+          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher.ExpiresAt) }}</p>
         </div>
-        <RouterLink :to="`/voucher/${voucher.id}`" class="mt-4 sm:mt-0">
+        <RouterLink :to="`/voucher/${voucher.ID}`" class="mt-4 sm:mt-0">
           <button
             class="px-4 py-2 text-sm font-semibold rounded-lg bg-primary-100 text-primary-600 hover:bg-primary-200"
           >
@@ -37,7 +37,7 @@ import { onMounted, ref } from 'vue'
 
 
 type VoucherType = {
-  brand: string;
+  brand: any
   expiryDate:string;
   status: string;
   [key: string]: string
@@ -61,7 +61,6 @@ const fetchPurchasedVouchers = async () => {
 
 const dashboardLinks = [
   { name: 'dashboard', text: 'My Vouchers', url: '/dashboard' },
-
   { name: 'profile', text: 'Profile Settings', url: '#' },
   { name: 'history', text: 'Purchase History', url: '#' },
 ]
@@ -71,9 +70,5 @@ onMounted(() => {
 })
 
 
-// const purchasedVouchers = [
-  // { id: '1', brand: 'Spotify Premium', expiryDate: '15 Aug, 2026', status: 'Active' },
-  // { id: '2', brand: 'Netflix', expiryDate: '20 Oct, 2025', status: 'Active' },
-  // { id: '3', brand: 'Shoprite', expiryDate: '01 Sep, 2025', status: 'Expired' },
-// ]
+
 </script>
