@@ -42,7 +42,7 @@ import { RouterLink } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import NavigationBar from '@/components/NavigationBar.vue'
 import Footer from '@/components/Footer.vue'
-
+import { navigation, footer } from '@/data/layoutData'
 
 
 import { useVouchersStore } from '@/stores/vouchers'
