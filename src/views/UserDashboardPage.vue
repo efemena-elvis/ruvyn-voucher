@@ -38,7 +38,7 @@ import { onMounted, ref } from 'vue'
 
 type VoucherType = {
   brand: any
-  expiryDate:string;
+  expiresAt:string;
   status: string;
   [key: string]: string
 }
