@@ -9,7 +9,7 @@
       >
         <div>
           <p class="font-bold text-text-primary">{{ voucher.brand.name }}</p>
-          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher.ExpiresAt) }}</p>
+          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher?.ExpiresAt).toLocaleDateString("en-GB" ) }}</p>
         </div>
         <RouterLink :to="`/voucher/${voucher.ID}`" class="mt-4 sm:mt-0">
           <button

@@ -12,7 +12,9 @@
 
         <div class="mb-4">
           <p class="text-gray-600">Expiry Date</p>
-          <p class="text-lg font-semibold">{{ new Date(String(voucher?.ExpiresAt)) }}</p>
+          <p v-if="voucher" class="text-lg font-semibold">
+            {{ new Date(voucher?.ExpiresAt).toLocaleDateString('en-GB') }}
+          </p>
         </div>
 
         <div class="mb-6">
