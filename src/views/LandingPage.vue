@@ -3,7 +3,7 @@
     <NavigationBar
       :logo-text="navigation.logoText"
       :nav-links="navigation.navLinks"
-      :user-actions="navigation.userActions"
+      :user-actions="userActions"
     />
     <main>
       <HeroBanner
@@ -63,6 +63,7 @@ const route = useRoute()
 const router = useRouter()
 const vouchersStore = useVouchersStore()
 
+
 // --- STATE FOR FILTERING ---
 const activeCategorySlug = ref('all')
 const searchQuery = ref('')
@@ -81,6 +82,14 @@ interface Voucher {
 }
 
 const allVouchers = ref<Voucher[]>([])
+
+const authToken = localStorage.getItem("auth_token")
+
+const userActions = computed(() => {
+  return authToken
+    ? [{ text: "View Dashboard", url: "/dashboard" }]
+    : navigation.userActions
+})
 
 const fetchVouchersList = async () => {
   try {
