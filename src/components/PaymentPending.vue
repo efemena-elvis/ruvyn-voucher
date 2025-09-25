@@ -1,18 +1,17 @@
 <template>
   <div class="min-h-screen bg-background-subtle flex items-center justify-center p-4">
     <StatusDisplay
-      status="success"
-      title="Payment Successful!"
-      message="Your voucher has been processed and delivered to your account. You can view and redeem it at any time from your dashboard."
+      status="pending"
+      title="Payment Pending..."
+      message="Your payment is being processed. This may take a few minutes."
     >
-   
       <template #actions>
         <div class="flex flex-col sm:flex-row gap-4">
           <RouterLink
             to="/dashboard"
             class="w-full sm:w-auto px-8 py-3 text-base font-semibold rounded-lg bg-primary-600 text-text-on-primary hover:bg-primary-700 transition-colors shadow-sm"
           >
-            View My Vouchers
+            Go to Dashboard
           </RouterLink>
           <RouterLink
             to="/"

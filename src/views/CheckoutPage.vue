@@ -94,14 +94,14 @@ const proceedToPayment = async () => {
     amount: order.value.total,
   })
   if (response.status === 200) {
-    window.location.href = response.data.payment_details.payment_link
+     localStorage.setItem('transaction_ref', response.data.payment_details.transaction_ref)
     toast.success('Payment initiated successfully', {
       autoClose: 3000,
       position: toast.POSITION.TOP_RIGHT,
 
       onClose: () => {
-
-        // router.push('/payment/success')
+        window.location.href = response.data.payment_details.payment_link
+       
       },
     })
   } else {
