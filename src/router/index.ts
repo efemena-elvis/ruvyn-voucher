@@ -42,9 +42,14 @@ const router = createRouter({
       component: () => import('@/views/CheckoutPage.vue'),
     },
     {
-      path: '/payment/success',
-      name: 'payment-success',
-      component: () => import('@/views/PaymentSuccessPage.vue'),
+      path: '/payment/callback',
+      name: 'payment-status',
+       props: route => ({
+    status: route.query.status,
+    tx_ref: route.query.tx_ref,
+    transaction_id: route.query.transaction_id,
+  }),
+      component: () => import('@/views/PaymentStatusPage.vue'),
     },
     {
       path: '/dashboard',

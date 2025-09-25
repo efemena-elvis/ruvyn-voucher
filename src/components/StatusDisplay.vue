@@ -21,17 +21,16 @@
       </svg>
     </div>
 
-    <!-- Title & Message -->
+ 
     <h2 class="text-3xl font-extrabold text-text-primary">{{ title }}</h2>
     <p class="mt-2 text-base text-text-secondary max-w-md">
       {{ message }}
     </p>
-    <div class="mt-4">
+    <div class="mt-4" >
       <p class="font-semibold">Transaction Reference:</p>
-      <p class="text-primary-600 text-[18px] font-bold">{{ payment_ref }}</p>
+      <p class="text-primary-600 text-[18px] font-bold">{{ transaction_ref }}</p>
     </div>
 
-    <!-- Slot for actions -->
     <div class="mt-8">
       <slot name="actions"></slot>
     </div>
@@ -39,43 +38,42 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
-// --- TYPE DEFINITIONS ---
-// Use a literal type to restrict the status to valid options
-type StatusType = 'success' | 'error' | 'warning'
 
-// --- PROPS ---
+type StatusType = 'success' | 'pending' | 'failed'
+
 const props = defineProps<{
   status: StatusType
   title: string
   message: string
 }>()
 
-const payment_ref = localStorage.getItem('payment_ref')
+const transaction_ref = localStorage.getItem('transaction_ref')
 
-// --- COMPOSITION API: COMPUTED ---
-// This computed property derives the correct styles and icon based on the `status` prop.
-// This keeps the template clean and centralizes the display logic.
+
 const statusStyles = computed(() => {
   switch (props.status) {
-    case 'error':
+    case 'failed':
       return {
-        bgColor: 'bg-red-500', // Would use status.error token if defined
-        iconPath: 'M6 18L18 6M6 6l12 12', // X icon
+        bgColor: 'bg-red-500', 
+        iconPath: 'M6 18L18 6M6 6l12 12', 
       }
-    case 'warning':
+    case 'pending':
       return {
-        bgColor: 'bg-yellow-500', // Would use status.warning token
+        bgColor: 'bg-yellow-500', 
         iconPath:
           'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z', // Warning icon
       }
     case 'success':
     default:
       return {
-        bgColor: 'bg-green-500', // Would use status.success token
-        iconPath: 'M5 13l4 4L19 7', // Checkmark icon
+        bgColor: 'bg-green-500', 
+        iconPath: 'M5 13l4 4L19 7', 
       }
   }
 })
+
+
+
 </script>

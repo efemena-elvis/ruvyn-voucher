@@ -1,7 +1,7 @@
 <template>
   <RouterLink
     :to="`vouchers/${id}`"
-    class="group block bg-violet-50 rounded-lg overflow-hidden border-2 border-gray-200/70 hover:border-primary-300 transition-all duration-300 shadow-sm hover:shadow-sm hover:scale-105"
+    class="group block bg-violet-50 rounded-lg overflow-hidden h-auto border-2 border-gray-200/70 hover:border-primary-300 transition-all duration-300 shadow-sm hover:shadow-sm hover:scale-105"
   >
     <!-- Top Banner (e.g., 'MOST POPULAR') -->
     <div
