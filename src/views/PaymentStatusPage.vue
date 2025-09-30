@@ -28,12 +28,12 @@ import { toast } from 'vue3-toastify'
 
 const route = useRoute()
 const vouchersStore = useVouchersStore()
-const status = ref<'success' | 'pending' | 'failed' | 'canceled'>('pending')
+const status = ref<'successful' | 'pending' | 'failed' >('pending')
 const loading = ref(true)
 
 const currentComponent = computed(() => {
   switch (status.value) {
-    case 'success':
+    case 'successful':
       return PaymentSuccess
     case 'pending':
       return PaymentPending
@@ -53,6 +53,7 @@ const handleVerification = async () => {
       if (response.status === 200) {
         status.value = response.data.status
       } else {
+        toast.error('Failed to verify payment. Please try again later.')
         status.value = 'failed'
       }
     }

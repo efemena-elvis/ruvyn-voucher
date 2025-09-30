@@ -30,7 +30,7 @@
        
 
       <!-- Buy Now Button -->
-      <div class="mt-2 text-center">
+      <div class="mt-5 text-center">
         <span
           class="inline-block px-8 py-3 text-sm font-semibold rounded-full bg-indigo-700 text-white group-hover:bg-indigo-800 transition-colors"
         >
