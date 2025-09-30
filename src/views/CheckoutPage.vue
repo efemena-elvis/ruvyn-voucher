@@ -84,31 +84,32 @@ onMounted(async () => {
 
 const proceedToPayment = async () => {
   const token = localStorage.getItem('auth_token')
+
   if (!token) {
     router.push('/signin')
     return
   }
-
-  const response = await paymentStore.proceedToCheckout({
-    voucher_id: order.value.items[0].id,
-    amount: order.value.total,
-  })
-  if (response.status === 200) {
-     localStorage.setItem('transaction_ref', response.data.payment_details.transaction_ref)
-    toast.success('Payment initiated successfully', {
-      autoClose: 3000,
-      position: toast.POSITION.TOP_RIGHT,
-
-      onClose: () => {
-        window.location.href = response.data.payment_details.payment_link
-       
-      },
+  try {
+    const response = await paymentStore.proceedToCheckout({
+      voucher_id: order.value.items[0].id,
+      amount: order.value.total,
     })
-  } else {
-    toast.error(response.data.error || 'Checkout failed', {
-      autoClose: 3000,
-      position: toast.POSITION.TOP_RIGHT,
-    })
-  }
+    if (response.status === 200) {
+      localStorage.setItem('transaction_ref', response.data.payment_details.transaction_ref)
+      toast.success('Payment initiated successfully', {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_RIGHT,
+
+        onClose: () => {
+          window.location.href = response.data.payment_details.payment_link
+        },
+      })
+    } else {
+      toast.error(response.data.error || 'Checkout failed', {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_RIGHT,
+      })
+    }
+  } catch (error) {}
 }
 </script>

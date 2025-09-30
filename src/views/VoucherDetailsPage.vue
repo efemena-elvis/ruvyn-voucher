@@ -3,7 +3,7 @@
     <NavigationBar
       :logo-text="navigation.logoText"
       :nav-links="navigation.navLinks"
-      :user-actions="navigation.userActions"
+      :user-actions="userActions"
     />
 
  
@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, type Ref } from 'vue'
+import { ref, onMounted, type Ref, computed } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { navigation, footer } from '@/data/layoutData'
 import NavigationBar from '@/components/NavigationBar.vue'
@@ -81,6 +81,14 @@ const router = useRouter()
 const voucherStore = useVouchersStore()
 
 const voucherData: Ref<Voucher | undefined> = ref()
+
+  const authToken = localStorage.getItem("auth_token")
+
+const userActions = computed(() => {
+  return authToken
+    ? [{ text: "View Dashboard", url: "/dashboard" }]
+    : navigation.userActions
+})
 
 // Fetch a single voucher by ID
 const fetchSingleVoucher = async (id: number | string) => {
