@@ -12,13 +12,13 @@
         search-placeholder="Search for airtime, electricity, Netflix..."
         @update:search="searchQuery = $event"
       />
-      <div class="container mx-auto px-6 py-20">
-        <div class="text-center mb-8">
-          <h2 class="text-4xl font-extrabold text-text-primary tracking-tight">
+      <div class="container px-6 py-20 mx-auto">
+        <div class="mb-8 text-center">
+          <h2 class="text-4xl font-extrabold tracking-tight text-text-primary">
             Vouchers for Everyone
           </h2>
         </div>
-        <div class="flex justify-center flex-wrap gap-2 sm:gap-4 mb-10">
+        <div class="flex flex-wrap justify-center gap-2 mb-10 sm:gap-4">
           <button
             v-for="filter in filterButtons"
             :key="filter.slug"
@@ -105,8 +105,7 @@ const fetchVouchersList = async () => {
 
 const filterButtons = [
   { slug: 'all', name: 'All' },
-  // { slug: 'most-popular', name: 'Most Popular' },
-  // { slug: 'featured', name: 'Featured' },
+
   ...categories.map((c) => ({ slug: c.slug, name: c.name })),
 ]
 
@@ -128,11 +127,7 @@ const filteredVouchers = computed(() => {
   let vouchers = allVouchers.value
 
   if (activeCategorySlug.value !== 'all') {
-    // if (activeCategorySlug.value === 'most-popular') {
-    //   vouchers = vouchers.filter((v) => v.category.name?.includes('Most Popular'))
-    // } else if (activeCategorySlug.value === 'featured') {
-    //   vouchers = vouchers.filter((v) => v.category.name?.includes('Featured'))
-    // } 
+  
      if (activeCategorySlug.value === 'utility-bills') {
       vouchers = vouchers.filter((v) => v.category.name?.includes('Utilities & Bills'))
     } else {

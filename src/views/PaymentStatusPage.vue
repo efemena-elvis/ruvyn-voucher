@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-background-subtle flex items-center justify-center p-4">
+  <div class="flex items-center justify-center min-h-screen p-4 bg-background-subtle">
     <div v-if="loading" class="flex flex-col items-center gap-3">
       <svg
-        class="animate-spin h-10 w-10 text-primary-600"
+        class="w-10 h-10 animate-spin text-primary-600"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -44,12 +44,12 @@ const currentComponent = computed(() => {
 
 const transaction_ref = localStorage.getItem('transaction_ref')
 
-const handleVerification = async () => {
+const handleGetVoucherStatus = async () => {
   try {
    
     if (transaction_ref) {
       
-      const response = await vouchersStore.verifyVoucher(transaction_ref)
+      const response = await vouchersStore.getVoucherStatus(transaction_ref)
       if (response.status === 200) {
         status.value = response.data.status
       } else {
@@ -65,15 +65,6 @@ const handleVerification = async () => {
 }
 
 onMounted(async () => {
-  await handleVerification()
-
-  //   const queryStatus = route.query.status as string | undefined
-  //   if (queryStatus === 'success' || queryStatus === 'pending' || queryStatus === 'error') {
-  //     status.value = queryStatus
-  //   } else {
-  //     status.value = 'error'
-  //   }
-
-  //   loading.value = false
+  await handleGetVoucherStatus()
 })
 </script>

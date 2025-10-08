@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-background-subtle flex flex-col items-center justify-center p-4">
+  <div class="flex flex-col items-center justify-center min-h-screen p-4 bg-background-subtle">
     <div class="w-full max-w-lg">
-      <div class="text-center mb-6">
+      <div class="mb-6 text-center">
         <h1 class="text-3xl font-extrabold text-text-primary">Confirm Your Order</h1>
-        <p class="text-text-secondary mt-2">Review the items below before proceeding to payment.</p>
+        <p class="mt-2 text-text-secondary">Review the items below before proceeding to payment.</p>
       </div>
 
       <!-- The OrderSummary component displays all financial details -->
@@ -19,11 +19,11 @@
       <div class="mt-6">
         <button
           @click="proceedToPayment"
-          class="w-full py-4 text-lg font-semibold rounded-lg bg-primary-600 text-text-on-primary hover:bg-primary-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          class="w-full py-4 text-lg font-semibold transition-colors rounded-lg shadow-sm bg-primary-600 text-text-on-primary hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         >
           Proceed to Payment
         </button>
-        <RouterLink to="/" class="block text-center mt-4 text-sm text-primary-600 hover:underline">
+        <RouterLink to="/" class="block mt-4 text-sm text-center text-primary-600 hover:underline">
           Continue Shopping
         </RouterLink>
       </div>
@@ -104,7 +104,15 @@ const proceedToPayment = async () => {
           window.location.href = response.data.payment_details.payment_link
         },
       })
-    } else {
+    }
+    else if (response.data.error === "Invalid or expired token"){
+      toast.error("Invalid Token, sign in again" , {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_RIGHT,
+      })
+    }
+    
+    else {
       toast.error(response.data.error || 'Checkout failed', {
         autoClose: 3000,
         position: toast.POSITION.TOP_RIGHT,
