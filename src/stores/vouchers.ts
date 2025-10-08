@@ -6,7 +6,9 @@ import {
  getVoucherById,
  getCategories,
  getPurchasedVouchers,
- verifyVoucherByReference
+ getVoucherStatusByReference,
+ verifyVoucherToken
+
 } from "./actions";
 
 export interface ApiResponse<T> {
@@ -61,8 +63,6 @@ export const useVouchersStore = defineStore("vouchers", () => {
   }
 
 
-
-
     const getAllCategories = async (): Promise<ApiResponse<any>> => {
     try {
       const response = await getCategories();
@@ -103,9 +103,29 @@ export const useVouchersStore = defineStore("vouchers", () => {
     }
   }
   
-  const verifyVoucher = async (transaction_ref: string): Promise<ApiResponse<any>> => {
+  const getVoucherStatus = async (transaction_ref: string): Promise<ApiResponse<any>> => {
     try {
-      const response = await verifyVoucherByReference(transaction_ref);
+      const response = await getVoucherStatusByReference(transaction_ref);
+      if (response === null) {
+        return {
+          status: 500,
+          data: null,
+          message: "No response from server",
+        };
+      }
+      return response;
+    } catch (err: any) {
+      return {
+        status: err?.status || 500,
+        data: null,
+        message: err?.message || "An error occurred",
+      };
+    }
+  }
+
+    const verifyVoucherByToken = async (payload: any): Promise<ApiResponse<any>> => {
+    try {
+      const response = await verifyVoucherToken(payload);
       if (response === null) {
         return {
           status: 500,
@@ -128,6 +148,7 @@ export const useVouchersStore = defineStore("vouchers", () => {
    getSingleVoucher,
    getAllCategories,
    getVouchersByUser,
-   verifyVoucher
+   getVoucherStatus,
+   verifyVoucherByToken
   };
 });

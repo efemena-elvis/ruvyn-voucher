@@ -3,16 +3,16 @@
     <NavigationBar
       :logo-text="navigation.logoText"
       :nav-links="navigation.navLinks"
-      :user-actions="navigation.userActions"
+      :user-actions="userActions"
     />
-    <main class="container mx-auto px-6 py-20">
-      <div class="text-center max-w-3xl mx-auto">
-        <h1 class="text-4xl font-extrabold text-text-primary tracking-tight">Browse by Category</h1>
+    <main class="container px-6 py-20 mx-auto">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight text-text-primary">Browse by Category</h1>
         <p class="mt-4 text-lg text-text-secondary">
           Find the perfect voucher by exploring our curated categories.
         </p>
       </div>
-      <div class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 gap-6 mt-12 md:grid-cols-3 lg:grid-cols-4">
         <RouterLink
           v-for="category in categoryList"
           :key="category.slug"
@@ -21,7 +21,7 @@
           
         >
           <div class="flex flex-col h-full">
-            <h3 class="font-bold text-2xl">{{ category.name }}</h3>
+            <h3 class="text-2xl font-bold">{{ category.name }}</h3>
             <p class="mt-auto text-sm opacity-80 group-hover:opacity-100">
               {{ category.count }} Vouchers
             </p>
@@ -65,6 +65,15 @@ interface Voucher {
 
 const allVouchers = ref<Voucher[]>([])
 const categories = ref<any>([])
+
+const authToken = localStorage.getItem("auth_token")
+
+const userActions = computed(() => {
+  return authToken
+    ? [{ text: "View Dashboard", url: "/dashboard" }]
+    : navigation.userActions
+})
+
 
 const fetchVouchersList = async () => {
   try {

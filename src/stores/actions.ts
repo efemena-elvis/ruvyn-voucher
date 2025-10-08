@@ -66,9 +66,18 @@ export const checkout = async (payload: any) => {
 }
 
 
-export const verifyVoucherByReference = async (transaction_ref: string) => {
-  return await processApiRequest(`/token/${transaction_ref}`,
-{    headers: getAuthHeader()}
+export const getVoucherStatusByReference = async (ref: string) => {
+  return await processApiRequest(`/orders/status/${ref}`,
+{   headers: getAuthHeader()}
   )
 }
+
+export const verifyVoucherToken = async (payload: any) => {
+  return await processApiRequest("/token/verify", {
+    method: "POST",
+    data: payload,
+    headers: getAuthHeader()
+  });
+}
+
 

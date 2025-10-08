@@ -3,7 +3,7 @@
     <NavigationBar
       :logo-text="navigation.logoText"
       :nav-links="navigation.navLinks"
-      :user-actions="navigation.userActions"
+      :user-actions="userActions"
     />
 
     <main>
@@ -35,6 +35,16 @@ import HeroBanner from '@/components/HeroBanner.vue'
 import FeatureHighlight from '@/components/FeatureHighlight.vue'
 import Footer from '@/components/Footer.vue'
 import { navigation, footer } from '@/data/layoutData' // Reusing layout data
+import { computed } from 'vue'
+
+const authToken = localStorage.getItem("auth_token")
+
+const userActions = computed(() => {
+  return authToken
+    ? [{ text: "View Dashboard", url: "/dashboard" }]
+    : navigation.userActions
+})
+
 
 // --- 2. DEFINE PAGE-SPECIFIC DATA ---
 const businessFeatures = [
