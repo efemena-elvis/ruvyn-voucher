@@ -30,6 +30,7 @@ const route = useRoute()
 const vouchersStore = useVouchersStore()
 const status = ref<'successful' | 'pending' | 'failed' >('pending')
 const loading = ref(true)
+const transaction_ref = ref<string>(localStorage.getItem('transaction_ref'))
 
 const currentComponent = computed(() => {
   switch (status.value) {
@@ -42,16 +43,17 @@ const currentComponent = computed(() => {
   }
 })
 
-const transaction_ref = localStorage.getItem('transaction_ref')
+
 
 const handleGetVoucherStatus = async () => {
   try {
    
-    if (transaction_ref) {
+    if (transaction_ref.value) {
       
-      const response = await vouchersStore.getVoucherStatus(transaction_ref)
+      const response = await vouchersStore.getVoucherStatus(transaction_ref.value)
       if (response.status === 200) {
         status.value = response.data.status
+        transaction_ref.value = response.data.transaction_ref
       } else {
         toast.error('Failed to verify payment. Please try again later.')
         status.value = 'failed'
