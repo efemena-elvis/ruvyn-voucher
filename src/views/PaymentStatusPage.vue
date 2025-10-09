@@ -31,6 +31,7 @@ const vouchersStore = useVouchersStore()
 const status = ref<'successful' | 'pending' | 'failed' >('pending')
 const transaction_ref = ref<string>(localStorage.getItem("transaction_ref"))
 const loading = ref(true)
+const transaction_ref = ref<string>(localStorage.getItem('transaction_ref'))
 
 const currentComponent = computed(() => {
   switch (status.value) {

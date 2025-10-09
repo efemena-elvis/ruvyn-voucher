@@ -47,9 +47,10 @@ const props = defineProps<{
   status: StatusType
   title: string
   message: string
+  transaction_ref: string
 }>()
 
-const transaction_ref = localStorage.getItem('transaction_ref')
+
 
 
 const statusStyles = computed(() => {
