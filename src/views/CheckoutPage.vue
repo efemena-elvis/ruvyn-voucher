@@ -106,7 +106,7 @@ const proceedToPayment = async () => {
       })
     }
     else if (response.data.error === "Invalid or expired token"){
-      toast.error("Invalid Token, sign in again" , {
+      toast.error("Invalid or expired Token. Please sign in again." , {
         autoClose: 3000,
         position: toast.POSITION.TOP_RIGHT,
       })
