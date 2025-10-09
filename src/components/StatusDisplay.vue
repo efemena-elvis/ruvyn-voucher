@@ -26,7 +26,7 @@
     <p class="mt-2 text-base text-text-secondary max-w-md">
       {{ message }}
     </p>
-    <div class="mt-4" >
+    <div class="mt-4" v-if="status === 'success'" >
       <p class="font-semibold">Transaction Reference:</p>
       <p class="text-primary-600 text-[18px] font-bold">{{ transaction_ref }}</p>
     </div>
