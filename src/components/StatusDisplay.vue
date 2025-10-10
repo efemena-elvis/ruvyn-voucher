@@ -40,14 +40,13 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 
-
 type StatusType = 'success' | 'pending' | 'failed'
 
 const props = defineProps<{
   status: StatusType
   title: string
   message: string
-  transaction_ref: string
+  transaction_ref?: string | null
 }>()
 
 

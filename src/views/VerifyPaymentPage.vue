@@ -38,9 +38,9 @@
           <button
             @click="handleVerification"
             type="button"
-            class="flex items-center justify-center w-full gap-2 py-3 text-base font-semibold transition-colors rounded-lg shadow-sm bg-primary-600 text-text-on-primary hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-60 disabled:cursor-not-allowed"
+            class="flex items-center justify-center w-full gap-2 py-3 mt-4 text-base font-semibold transition-colors rounded-lg shadow-sm bg-primary-600 text-text-on-primary hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-60 disabled:cursor-not-allowed"
       >
-             <span v-if="!isLoading">Verify Payment</span>
+             <span v-if="!isLoading" >Verify Payment</span>
         <span v-else class="flex items-center gap-2">
           <svg
             class="w-5 h-5 text-white animate-spin"
