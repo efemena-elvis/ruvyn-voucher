@@ -42,7 +42,7 @@
         <span
   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
   :class="{
-    'bg-green-100 text-green-800': verificationResult?.status === 'successful',
+    'bg-green-100 text-green-800': verificationResult?.status === 'paid',
     'bg-red-100 text-red-800': verificationResult?.status === 'failed',
     'bg-yellow-100 text-yellow-800': verificationResult?.status === 'pending',
     'bg-gray-100 text-gray-800': !verificationResult?.status 

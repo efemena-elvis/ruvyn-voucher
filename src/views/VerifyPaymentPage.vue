@@ -102,7 +102,6 @@ const handleVerification = async () => {
 
     if (response.status === 200) {
       paymentStore.setPaymentResponse(response.data)
-
       router.push('/verify-payment/success')
     } else {
       toast.error(response.data.error || 'Something went wrong', {

@@ -12,7 +12,7 @@
       </svg>
       <p class="text-text-secondary">Checking payment status...</p>
     </div>
-    <component v-else :is="currentComponent" />
+    <component v-else :is="currentComponent"  :transaction_ref="transaction_ref"/>
   </div>
 </template>
 
@@ -26,18 +26,18 @@ import { toast } from 'vue3-toastify'
 
 
 const vouchersStore = useVouchersStore()
-const status = ref<'successful' | 'pending' | 'failed' >('pending')
+const status = ref<'paid' | 'pending' | 'failed' >('pending')
 const loading = ref(true)
 const transaction_ref = ref<string | null>(localStorage.getItem('transaction_ref'))
 
 const currentComponent = computed(() => {
   switch (status.value) {
-    case 'successful':
+    case 'paid':
       return PaymentSuccess
-    case 'pending':
-      return PaymentPending
-    default:
+    case 'failed':
       return PaymentFailed
+    default:
+      return PaymentPending
   }
 })
 
