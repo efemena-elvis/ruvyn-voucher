@@ -34,7 +34,7 @@
         </div>
         <div class="flex justify-between">
           <span class="text-neutral-600">Amount Paid:</span>
-          <span class="font-semibold text-text-primary">{{ verificationResult?.amount }}</span>
+          <span class="font-semibold text-text-primary">R {{ verificationResult?.amount }}</span>
         </div>
 
         <div class="flex justify-between items-center">
