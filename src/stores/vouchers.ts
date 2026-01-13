@@ -7,7 +7,7 @@ import {
  getCategories,
  getPurchasedVouchers,
  getVoucherStatusByReference,
- verifyVoucherToken
+ verifyVoucherRef
 
 } from "./actions";
 
@@ -123,9 +123,9 @@ export const useVouchersStore = defineStore("vouchers", () => {
     }
   }
 
-    const verifyVoucherByToken = async (payload: any): Promise<ApiResponse<any>> => {
+    const verifyVoucherByRef = async (payload: any): Promise<ApiResponse<any>> => {
     try {
-      const response = await verifyVoucherToken(payload);
+      const response = await verifyVoucherRef(payload);
       if (response === null) {
         return {
           status: 500,
@@ -149,6 +149,6 @@ export const useVouchersStore = defineStore("vouchers", () => {
    getAllCategories,
    getVouchersByUser,
    getVoucherStatus,
-   verifyVoucherByToken
+   verifyVoucherByRef
   };
 });

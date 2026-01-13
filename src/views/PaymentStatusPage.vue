@@ -12,21 +12,19 @@
       </svg>
       <p class="text-text-secondary">Checking payment status...</p>
     </div>
-
     <component v-else :is="currentComponent" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { useVouchersStore } from '@/stores/vouchers'
 import PaymentSuccess from '@/components/PaymentSuccess.vue'
 import PaymentPending from '@/components/PaymentPending.vue'
 import PaymentFailed from '@/components/PaymentFailed.vue'
 import { toast } from 'vue3-toastify'
 
-const route = useRoute()
+
 const vouchersStore = useVouchersStore()
 const status = ref<'successful' | 'pending' | 'failed' >('pending')
 const loading = ref(true)
