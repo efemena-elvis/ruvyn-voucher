@@ -26,13 +26,15 @@ import { toast } from 'vue3-toastify'
 
 
 const vouchersStore = useVouchersStore()
-const status = ref<'completed' | 'pending' | 'failed' >('pending')
+const status = ref<'completed'| 'paid' | 'pending' | 'failed' >('pending')
 const loading = ref(true)
 const transaction_ref = ref<string | null>(localStorage.getItem('transaction_ref'))
 
 const currentComponent = computed(() => {
   switch (status.value) {
     case 'completed':
+      return PaymentSuccess
+    case 'paid':
       return PaymentSuccess
     case 'failed':
       return PaymentFailed
