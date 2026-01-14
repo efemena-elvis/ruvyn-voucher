@@ -7,7 +7,7 @@
 
         <div class="mb-4">
           <p class="text-gray-600">Voucher Name</p>
-          <p class="text-lg font-semibold">{{ voucher?.brand.name }}</p>
+          <p class="text-lg font-semibold">{{ voucher?.Voucher.name }}</p>
         </div>
 
         <div class="mb-4">
@@ -20,7 +20,7 @@
         <div class="mb-6">
           <p class="text-gray-600">Your Code</p>
           <div class="flex items-center justify-between bg-gray-100 p-3 rounded-lg">
-            <span class="text-xl font-mono font-bold text-primary-600">
+            <span class="text-md font-mono font-bold text-primary-600">
               {{ voucher?.Code }}
             </span>
             <button
@@ -51,7 +51,7 @@ import { computed, onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
 
 type VoucherType = {
-  brand: any
+  Voucher: any
   ExpiresAt: string
   Code: string
   [key: string]: string
