@@ -26,9 +26,17 @@
     <p class="mt-2 text-base text-text-secondary max-w-md">
       {{ message }}
     </p>
-    <div class="mt-4" v-if="status === 'success'" >
+    <div class="mt-4 " v-if="status === 'success'" >
       <p class="font-semibold">Transaction Reference:</p>
-      <p class="text-primary-600 text-[18px] font-bold">{{ transaction_ref }}</p>
+      <div class = "flex items-center gap-4">
+        <p class="text-primary-600 text-[12px] font-bold">{{ transaction_ref }}</p>
+          <button
+        @click="copyTransactionRef"
+        class="text-sm bg-gray-300 w-[60px] rounded-full p-1 text-primary-600  focus:outline-none"
+            >
+        {{ copied ? 'Copied' : 'Copy' }}
+            </button>
+      </div>
     </div>
 
     <div class="mt-8">
@@ -38,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 
 type StatusType = 'success' | 'pending' | 'failed'
 
@@ -50,6 +58,22 @@ const props = defineProps<{
 }>()
 
 
+const copied = ref(false)
+
+const copyTransactionRef = async () => {
+  if (!props.transaction_ref) return
+
+  try {
+    await navigator.clipboard.writeText(props.transaction_ref)
+    copied.value = true
+
+    setTimeout(() => {
+      copied.value = false
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy transaction reference', err)
+  }
+}
 
 
 const statusStyles = computed(() => {

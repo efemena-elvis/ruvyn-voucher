@@ -98,6 +98,6 @@ const uniqueBrands = computed(() => {
 
 onMounted(async () => {
   await fetchVouchersList()
-  console.log(uniqueBrands.value)
+  // console.log(uniqueBrands.value)
 })
 </script>

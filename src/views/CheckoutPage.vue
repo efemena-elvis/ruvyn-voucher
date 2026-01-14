@@ -51,7 +51,7 @@ const route = useRoute()
 const vouchersStore = useVouchersStore()
 const paymentStore = usePaymentStore()
 
-// Fetch a single voucher by ID
+
 const fetchSingleVoucher = async (id: number | string) => {
   try {
     const response = await vouchersStore.getSingleVoucher(id)

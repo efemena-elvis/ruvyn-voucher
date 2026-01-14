@@ -21,14 +21,14 @@
 
             <div class="mt-6 space-y-5">
               <div>
-                <label for="voucherToken" class="block text-sm font-medium text-text-primary">
-                  Voucher Token
+                <label for="voucherRef" class="block text-sm font-medium text-text-primary">
+                  Voucher Reference
                 </label>
                 <input
-                  v-model="voucherToken"
+                  v-model="voucherRef"
                   type="text"
                   id="transactionRef"
-                  placeholder="Enter voucher token"
+                  placeholder="Enter voucher reference"
                   class="mt-1 focus:ring-primary-500 border border-grey-600 focus:border-primary-500 outline-none block w-full shadow-sm sm:text-sm border-neutral-300 rounded-md p-2.5"
                 />
               </div>
@@ -86,7 +86,7 @@ const router = useRouter()
 const paymentStore = usePaymentStore()
 const vouchersStore = useVouchersStore()
 
-const voucherToken = ref<string>('')
+const voucherRef = ref<string>('')
 const isLoading = ref<boolean>(false)
 
 const authToken = localStorage.getItem('auth_token')
@@ -98,11 +98,10 @@ const userActions = computed(() => {
 const handleVerification = async () => {
   try {
     isLoading.value = true
-    const response = await vouchersStore.verifyVoucherByToken({ token: voucherToken.value })
+    const response = await vouchersStore.verifyVoucherByRef({ ref: voucherRef.value })
 
     if (response.status === 200) {
       paymentStore.setPaymentResponse(response.data)
-
       router.push('/verify-payment/success')
     } else {
       toast.error(response.data.error || 'Something went wrong', {

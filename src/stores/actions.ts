@@ -72,7 +72,7 @@ export const getVoucherStatusByReference = async (ref: string) => {
   )
 }
 
-export const verifyVoucherToken = async (payload: any) => {
+export const verifyVoucherRef = async (payload: any) => {
   return await processApiRequest("/token/verify", {
     method: "POST",
     data: payload,

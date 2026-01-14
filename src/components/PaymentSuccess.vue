@@ -2,6 +2,7 @@
   <div class="min-h-screen bg-background-subtle flex items-center justify-center p-4">
     <StatusDisplay
       status="success"
+      :transaction_ref="transaction_ref"
       title="Payment Successful!"
       message="Your voucher has been processed and delivered to your account. You can view and redeem it at any time from your dashboard."
     >
@@ -28,4 +29,8 @@
 <script setup lang="ts">
 import StatusDisplay from '@/components/StatusDisplay.vue'
 import { RouterLink } from 'vue-router'
+
+const props = defineProps<{
+  transaction_ref: string | null
+}>()
 </script>

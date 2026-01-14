@@ -12,39 +12,35 @@
       </svg>
       <p class="text-text-secondary">Checking payment status...</p>
     </div>
-
-    <component v-else :is="currentComponent" />
+    <component v-else :is="currentComponent"  :transaction_ref="transaction_ref"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { useVouchersStore } from '@/stores/vouchers'
 import PaymentSuccess from '@/components/PaymentSuccess.vue'
 import PaymentPending from '@/components/PaymentPending.vue'
 import PaymentFailed from '@/components/PaymentFailed.vue'
 import { toast } from 'vue3-toastify'
 
-const route = useRoute()
+
 const vouchersStore = useVouchersStore()
-const status = ref<'successful' | 'pending' | 'failed' >('pending')
+const status = ref<'paid' | 'pending' | 'failed' >('pending')
 const transaction_ref = ref<string>(localStorage.getItem("transaction_ref"))
 const loading = ref(true)
 const transaction_ref = ref<string | null>(localStorage.getItem('transaction_ref'))
 
 const currentComponent = computed(() => {
   switch (status.value) {
-    case 'successful':
+    case 'paid':
       return PaymentSuccess
-    case 'pending':
-      return PaymentPending
-    default:
+    case 'failed':
       return PaymentFailed
+    default:
+      return PaymentPending
   }
 })
-
-
 
 const handleGetVoucherStatus = async () => {
   try {
