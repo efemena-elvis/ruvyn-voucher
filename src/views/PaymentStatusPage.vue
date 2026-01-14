@@ -27,6 +27,7 @@ import { toast } from 'vue3-toastify'
 
 const vouchersStore = useVouchersStore()
 const status = ref<'paid' | 'pending' | 'failed' >('pending')
+const transaction_ref = ref<string>(localStorage.getItem("transaction_ref"))
 const loading = ref(true)
 const transaction_ref = ref<string | null>(localStorage.getItem('transaction_ref'))
 
