@@ -10,10 +10,7 @@
       class="bg-background-default shadow-lg rounded-xl p-8 space-y-6"
     >
       <div v-for="field in fields" :key="field.name" class="relative">
-        <label
-          :for="field.name"
-          class="block text-sm font-semibold text-text-primary mb-1"
-        >
+        <label :for="field.name" class="block text-sm font-semibold text-text-primary mb-1">
           {{ field.label }}
         </label>
 
@@ -58,11 +55,7 @@
               stroke="currentColor"
               stroke-width="4"
             />
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-            />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
           </svg>
         </span>
       </button>
@@ -70,10 +63,7 @@
 
     <p class="mt-6 text-center text-sm text-text-secondary">
       {{ secondaryLink.text }}
-      <RouterLink
-        :to="secondaryLink.url"
-        class="font-semibold text-primary-600 hover:underline"
-      >
+      <RouterLink :to="secondaryLink.url" class="font-semibold text-primary-600 hover:underline">
         {{ secondaryLink.ctaText }}
       </RouterLink>
     </p>
@@ -81,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 interface FormField {

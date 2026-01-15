@@ -1,7 +1,10 @@
 <template>
   <DashboardLayout :sidebar-links="dashboardLinks" active-view-title="My Vouchers">
-    <div class="space-y-4">
-   
+ <Loader v-if="isLoading" class="py-30" size="w-12 h-12" />
+
+    <div class="space-y-4" v-else>
+    
+
       <div
         v-for="voucher in purchasedVouchers"
         :key="voucher.id"
@@ -34,6 +37,7 @@ import DashboardLayout from '@/components/DashboardLayout.vue'
 import { RouterLink } from 'vue-router'
 import { useVouchersStore } from '../stores/vouchers'
 import { onMounted, ref } from 'vue'
+import Loader from '@/components/Loader.vue'
 
 
 type VoucherType = {
@@ -46,8 +50,10 @@ type VoucherType = {
 const vouchersStore = useVouchersStore()
 
 const purchasedVouchers = ref<VoucherType[]>([])
+const isLoading = ref(true)
 
 const fetchPurchasedVouchers = async () => {
+  isLoading.value = true
   try {
     const response = await vouchersStore.getVouchersByUser()
 
@@ -57,6 +63,8 @@ const fetchPurchasedVouchers = async () => {
   } catch (error) {
     console.log(error)
   }
+
+  isLoading.value = false
 }
 
 const dashboardLinks = [

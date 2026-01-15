@@ -1,9 +1,11 @@
 <template>
   <DashboardLayout :sidebar-links="dashboardLinks" active-view-title="">
+    <Loader v-if="isLoading" class="py-30" size="w-12 h-12" />
     <!-- Main Content -->
-    <main class="flex-1 p-8 bg-none">
+
+    <main class="flex-1 p-8 bg-none" v-else>
       <div class="max-w-lg mx-auto rounded-2xl shadow p-6">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Voucher Details</h1>
+        <h1 class="text-2xl font-bold text-gray-800 mb-4 border-b border-gray-300 pb-1 -mx-6 px-6">Voucher Details</h1>
 
         <div class="mb-4">
           <p class="text-gray-600">Voucher Name</p>
@@ -49,6 +51,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useVouchersStore } from '../stores/vouchers'
 import { computed, onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
+import Loader from '@/components/Loader.vue'
 
 type VoucherType = {
   Voucher: any
@@ -62,15 +65,16 @@ const route = useRoute()
 const vouchersStore = useVouchersStore()
 
 const purchasedVouchers = ref<VoucherType[]>([])
+const isLoading = ref(true)
 
 const dashboardLinks = [
   { name: 'dashboard', text: 'My Vouchers', url: '/dashboard' },
-
   { name: 'profile', text: 'Profile Settings', url: '#' },
   { name: 'history', text: 'Purchase History', url: '#' },
 ]
 
 const fetchPurchasedVouchers = async () => {
+  isLoading.value = true
   try {
     const response = await vouchersStore.getVouchersByUser()
 
@@ -80,6 +84,7 @@ const fetchPurchasedVouchers = async () => {
   } catch (error) {
     console.log(error)
   }
+  isLoading.value = false
 }
 
 const voucher = computed<VoucherType | undefined>(() =>
