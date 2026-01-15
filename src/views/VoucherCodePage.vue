@@ -9,13 +9,16 @@
 
         <div class="mb-4">
           <p class="text-gray-600">Voucher Name</p>
-          <p class="text-lg font-semibold">{{ voucher?.Voucher.name }}</p>
+          <p class="text-lg font-semibold">{{ voucher?.voucher.name }}</p>
         </div>
-
+ <div class="mb-4">
+          <p class="text-gray-600">Amount</p>
+          <p class="text-lg font-semibold">R {{ voucher?.amount }}</p>
+        </div>
         <div class="mb-4">
           <p class="text-gray-600">Expiry Date</p>
           <p v-if="voucher" class="text-lg font-semibold">
-            {{ new Date(voucher?.ExpiresAt).toLocaleDateString('en-GB') }}
+            {{ new Date(voucher?.expires_at).toLocaleDateString('en-GB') }}
           </p>
         </div>
 
@@ -23,7 +26,7 @@
           <p class="text-gray-600">Your Code</p>
           <div class="flex items-center justify-between bg-gray-100 p-3 rounded-lg">
             <span class="text-md font-mono font-bold text-primary-600">
-              {{ voucher?.Code }}
+              {{ voucher?.code }}
             </span>
             <button
               @click="copyCode"
@@ -54,9 +57,9 @@ import { toast } from 'vue3-toastify'
 import Loader from '@/components/Loader.vue'
 
 type VoucherType = {
-  Voucher: any
-  ExpiresAt: string
-  Code: string
+  voucher: any
+  expiresAt: string
+  code: string
   [key: string]: string
 }
 

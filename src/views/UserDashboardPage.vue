@@ -11,8 +11,8 @@
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-neutral-200 rounded-lg"
       >
         <div>
-          <p class="font-bold text-text-primary">{{ voucher.Voucher.brand.name }}</p>
-          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher?.ExpiresAt).toLocaleDateString("en-GB" ) }}</p>
+          <p class="font-bold text-text-primary">{{ voucher.voucher.brand.name }}</p>
+          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher?.expires_at).toLocaleDateString("en-GB" ) }}</p>
         </div>
         <RouterLink :to="`/voucher/${voucher.ID}`" class="mt-4 sm:mt-0">
           <button
@@ -41,7 +41,7 @@ import Loader from '@/components/Loader.vue'
 
 
 type VoucherType = {
-  Voucher: any;
+  voucher: any;
   expiresAt: string
   status: string
   [key: string]: string
