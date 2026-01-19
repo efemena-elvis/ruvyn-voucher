@@ -1,11 +1,11 @@
 <template>
-  <DashboardLayout :sidebar-links="dashboardLinks" active-view-title="">
+
     <Loader v-if="isLoading" class="py-30" size="w-12 h-12" />
     <!-- Main Content -->
 
     <main class="flex-1 p-8 bg-none" v-else>
       <div class="max-w-lg mx-auto rounded-2xl shadow p-6">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4 border-b border-gray-300 pb-1 -mx-6 px-6">Voucher Details</h1>
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b border-gray-200 pb-4 -mx-6 px-6">Voucher Details</h1>
 
         <div class="mb-4">
           <p class="text-gray-600">Voucher Name</p>
@@ -45,7 +45,7 @@
         </button>
       </div>
     </main>
-  </DashboardLayout>
+
 </template>
 
 <script setup lang="ts">
