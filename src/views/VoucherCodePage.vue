@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import DashboardLayout from '@/components/DashboardLayout.vue'
+
 import { useRoute, useRouter } from 'vue-router'
 import { useVouchersStore } from '../stores/vouchers'
 import { computed, onMounted, ref } from 'vue'
@@ -70,11 +70,7 @@ const vouchersStore = useVouchersStore()
 const purchasedVouchers = ref<VoucherType[]>([])
 const isLoading = ref(true)
 
-const dashboardLinks = [
-  { name: 'dashboard', text: 'My Vouchers', url: '/dashboard' },
-  { name: 'profile', text: 'Profile Settings', url: '#' },
-  { name: 'history', text: 'Purchase History', url: '#' },
-]
+
 
 const fetchPurchasedVouchers = async () => {
   isLoading.value = true
@@ -99,7 +95,7 @@ onMounted(async () => {
 })
 
 const copyCode = () => {
-  navigator.clipboard.writeText(String(voucher.value?.Code))
+  navigator.clipboard.writeText(String(voucher.value?.code))
   toast.success('Voucher code copied', {
     autoClose: 3000,
   })
