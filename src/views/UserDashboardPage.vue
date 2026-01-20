@@ -8,7 +8,7 @@
       <div
         v-for="voucher in purchasedVouchers"
         :key="voucher.id"
-        class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-neutral-200 rounded-lg"
+        class="flex flex-row items-start justify-between p-4 border rounded-lg border-neutral-200"
       >
         <div>
           <p class="font-bold text-text-primary">{{ voucher.voucher.brand.name }}</p>
@@ -22,9 +22,9 @@
           </button>
         </RouterLink>
       </div>
-      <div v-if="purchasedVouchers?.length === 0" class="text-center py-10">
+      <div v-if="purchasedVouchers?.length === 0" class="py-10 text-center">
         <p class="text-text-secondary">You haven't purchased any vouchers yet.</p>
-        <RouterLink to="/" class="text-primary-600 font-semibold hover:underline">
+        <RouterLink to="/" class="font-semibold text-primary-600 hover:underline">
           Start Shopping
         </RouterLink>
       </div>

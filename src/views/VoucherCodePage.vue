@@ -35,8 +35,8 @@
       </div>
       <div class="mb-6">
         <p class="text-gray-600">Your Code</p>
-        <div class="flex items-center justify-between p-3 bg-gray-100 rounded-lg">
-          <span class="font-mono font-bold text-md text-primary-600">
+        <div class="flex items-center justify-between p-3 bg-gray-100 rounded-lg lg-flex-row">
+          <span class="font-mono text-sm font-bold lg:text-md text-primary-600">
             {{ voucher?.code }}
           </span>
           <button
