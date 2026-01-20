@@ -35,13 +35,13 @@
       </div>
       <div class="mb-6">
         <p class="text-gray-600">Your Code</p>
-        <div class="flex items-center justify-between p-3 bg-gray-100 rounded-lg lg-flex-row">
-          <span class="font-mono text-sm font-bold lg:text-md text-primary-600">
+        <div class="flex flex-col items-start justify-between gap-4 p-3 bg-gray-100 rounded-lg lg:items-center lg:gap-0 lg:flex-row">
+          <span class="font-mono font-bold text-md text-primary-600">
             {{ voucher?.code }}
           </span>
           <button
             @click="copyCode"
-            class="px-3 py-1 text-sm text-white bg-indigo-500 rounded-lg hover:bg-indigo-600"
+            class="px-3 py-2 text-sm text-white bg-indigo-500 rounded-lg hover:bg-indigo-600"
           >
             Copy
           </button>
