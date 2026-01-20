@@ -1,15 +1,18 @@
 <template>
   <DashboardLayout :sidebar-links="dashboardLinks" active-view-title="My Vouchers">
-    <div class="space-y-4">
-   
+ <Loader v-if="isLoading" class="py-30" size="w-12 h-12" />
+
+    <div class="space-y-4" v-else>
+    
+
       <div
         v-for="voucher in purchasedVouchers"
         :key="voucher.id"
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-neutral-200 rounded-lg"
       >
         <div>
-          <p class="font-bold text-text-primary">{{ voucher.brand.name }}</p>
-          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher?.ExpiresAt).toLocaleDateString("en-GB" ) }}</p>
+          <p class="font-bold text-text-primary">{{ voucher.voucher.brand.name }}</p>
+          <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher?.expires_at).toLocaleDateString("en-GB" ) }}</p>
         </div>
         <RouterLink :to="`/voucher/${voucher.ID}`" class="mt-4 sm:mt-0">
           <button
@@ -34,20 +37,23 @@ import DashboardLayout from '@/components/DashboardLayout.vue'
 import { RouterLink } from 'vue-router'
 import { useVouchersStore } from '../stores/vouchers'
 import { onMounted, ref } from 'vue'
+import Loader from '@/components/Loader.vue'
 
 
 type VoucherType = {
-  brand: any
-  expiresAt:string;
-  status: string;
+  voucher: any;
+  expiresAt: string
+  status: string
   [key: string]: string
 }
 
 const vouchersStore = useVouchersStore()
 
 const purchasedVouchers = ref<VoucherType[]>([])
+const isLoading = ref(true)
 
 const fetchPurchasedVouchers = async () => {
+  isLoading.value = true
   try {
     const response = await vouchersStore.getVouchersByUser()
 
@@ -57,6 +63,8 @@ const fetchPurchasedVouchers = async () => {
   } catch (error) {
     console.log(error)
   }
+
+  isLoading.value = false
 }
 
 const dashboardLinks = [

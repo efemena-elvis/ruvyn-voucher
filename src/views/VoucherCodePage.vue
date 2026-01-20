@@ -1,59 +1,74 @@
 <template>
-  <DashboardLayout :sidebar-links="dashboardLinks" active-view-title="">
-    <!-- Main Content -->
-    <main class="flex-1 p-8 bg-none">
-      <div class="max-w-lg mx-auto rounded-2xl shadow p-6">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Voucher Details</h1>
+  <Loader v-if="isLoading" class="py-30" size="w-12 h-12" />
+  <!-- Main Content -->
 
-        <div class="mb-4">
-          <p class="text-gray-600">Voucher Name</p>
-          <p class="text-lg font-semibold">{{ voucher?.brand.name }}</p>
-        </div>
+  <main class="flex-1 p-8 bg-none" v-else>
+    <div class="max-w-lg p-6 mx-auto shadow rounded-2xl">
+      <h1 class="px-6 pb-4 mb-6 -mx-6 text-2xl font-bold text-gray-800 border-b border-gray-200">
+        Voucher Details
+      </h1>
 
-        <div class="mb-4">
-          <p class="text-gray-600">Expiry Date</p>
-          <p v-if="voucher" class="text-lg font-semibold">
-            {{ new Date(voucher?.ExpiresAt).toLocaleDateString('en-GB') }}
-          </p>
-        </div>
-
-        <div class="mb-6">
-          <p class="text-gray-600">Your Code</p>
-          <div class="flex items-center justify-between bg-gray-100 p-3 rounded-lg">
-            <span class="text-xl font-mono font-bold text-primary-600">
-              {{ voucher?.Code }}
-            </span>
-            <button
-              @click="copyCode"
-              class="px-3 py-1 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm"
-            >
-              Copy
-            </button>
-          </div>
-        </div>
-
-        <button
-          class="w-full py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium"
-          @click="goBack"
-        >
-          Back to My Vouchers
-        </button>
+      <div class="mb-4">
+        <p class="text-gray-600">Voucher Name</p>
+        <p class="text-lg font-semibold">{{ voucher?.voucher.name }}</p>
       </div>
-    </main>
-  </DashboardLayout>
+
+      <div class="mb-4">
+        <p class="text-gray-600">Voucher Type</p>
+        <p class="text-lg font-semibold">{{ formatType(voucher?.voucher.type) }}</p>
+      </div>
+      <div class="mb-4">
+        <p class="text-gray-600">Amount</p>
+        <p class="text-lg font-semibold">TZS {{ voucher?.amount }}</p>
+      </div>
+      <div class="mb-4">
+        <p class="text-gray-600">Expiry Date</p>
+        <p v-if="voucher" class="text-lg font-semibold">
+          {{ new Date(voucher?.expires_at).toLocaleDateString('en-GB') }}
+        </p>
+      </div>
+      <div class="mb-4" v-if="voucher?.redeemed_at">
+        <p class="text-gray-600">Date Redeemed</p>
+        <p v-if="voucher" class="text-lg font-semibold">
+          {{ new Date(voucher?.redeemed_at).toLocaleDateString('en-GB') }}
+        </p>
+      </div>
+      <div class="mb-6">
+        <p class="text-gray-600">Your Code</p>
+        <div class="flex items-center justify-between p-3 bg-gray-100 rounded-lg">
+          <span class="font-mono font-bold text-md text-primary-600">
+            {{ voucher?.code }}
+          </span>
+          <button
+            @click="copyCode"
+            class="px-3 py-1 text-sm text-white bg-indigo-500 rounded-lg hover:bg-indigo-600"
+          >
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <button
+        class="w-full py-2 font-medium text-white rounded-lg bg-primary-500 hover:bg-primary-600"
+        @click="goBack"
+      >
+        Back to My Vouchers
+      </button>
+    </div>
+  </main>
 </template>
 
 <script setup lang="ts">
-import DashboardLayout from '@/components/DashboardLayout.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useVouchersStore } from '../stores/vouchers'
 import { computed, onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
+import Loader from '@/components/Loader.vue'
 
 type VoucherType = {
-  brand: any
-  ExpiresAt: string
-  Code: string
+  voucher: any
+  expiresAt: string
+  code: string
   [key: string]: string
 }
 
@@ -62,15 +77,14 @@ const route = useRoute()
 const vouchersStore = useVouchersStore()
 
 const purchasedVouchers = ref<VoucherType[]>([])
+const isLoading = ref(true)
 
-const dashboardLinks = [
-  { name: 'dashboard', text: 'My Vouchers', url: '/dashboard' },
-
-  { name: 'profile', text: 'Profile Settings', url: '#' },
-  { name: 'history', text: 'Purchase History', url: '#' },
-]
+const formatType = (type: string) => {
+  return type.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
+}
 
 const fetchPurchasedVouchers = async () => {
+  isLoading.value = true
   try {
     const response = await vouchersStore.getVouchersByUser()
 
@@ -80,6 +94,7 @@ const fetchPurchasedVouchers = async () => {
   } catch (error) {
     console.log(error)
   }
+  isLoading.value = false
 }
 
 const voucher = computed<VoucherType | undefined>(() =>
@@ -91,7 +106,7 @@ onMounted(async () => {
 })
 
 const copyCode = () => {
-  navigator.clipboard.writeText(String(voucher.value?.Code))
+  navigator.clipboard.writeText(String(voucher.value?.code))
   toast.success('Voucher code copied', {
     autoClose: 3000,
   })

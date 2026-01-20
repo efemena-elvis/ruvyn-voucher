@@ -21,9 +21,9 @@
           
         >
           <div class="flex flex-col h-full">
-            <h3 class="text-2xl font-bold">{{ category.name }}</h3>
+            <h3 class="text-2xl font-bold">{{ category.slug }}</h3>
             <p class="mt-auto text-sm opacity-80 group-hover:opacity-100">
-              {{ category.count }} Vouchers
+            {{ category.count }} {{ category.count <= 1 ?  'Voucher' : 'Vouchers' }}
             </p>
           </div>
         </RouterLink>
@@ -64,7 +64,8 @@ interface Voucher {
 }
 
 const allVouchers = ref<Voucher[]>([])
-const categories = ref<any>([])
+
+  const rawCategories = ref<any>([])
 
 const authToken = localStorage.getItem("auth_token")
 
@@ -73,6 +74,22 @@ const userActions = computed(() => {
     ? [{ text: "View Dashboard", url: "/dashboard" }]
     : navigation.userActions
 })
+
+const slugify = (text: string) => {
+  const normalized = text.toLowerCase().trim()
+
+  if (
+    normalized === 'utilities & bills'
+  ) {
+    return 'utility-bills'
+  }
+
+  return normalized
+    .replace(/&/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+}
+
 
 
 const fetchVouchersList = async () => {
@@ -88,11 +105,10 @@ const fetchVouchersList = async () => {
 }
 
 const fetchCategoriesList = async () => {
-  try { 
+  try {
     const response = await vouchersStore.getAllCategories()
     if (response.status === 200) {
-      categories.value = response.data
-    } else {
+      rawCategories.value = response.data
     }
   } catch (error) {
     console.log(error)
@@ -100,26 +116,23 @@ const fetchCategoriesList = async () => {
 }
 
 
-
-
 const categoryList = computed(() => {
-  return categories.value.map((category: any) => {
+  return rawCategories.value.map((category: any) => {
     const count = allVouchers.value.filter(
-      (v) => category.name === v.category.name
+      (v) => v.category.name === category.name
     ).length
 
     return {
       ...category,
+      slug: slugify(category.name),
       count,
     }
   })
 })
+
 onMounted(async () => {
  await fetchVouchersList()
  await fetchCategoriesList()
- 
-console.log(categoryList)
-
 })
 
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-background-subtle">
     <!-- Sidebar Navigation -->
-    <aside class="flex flex-col flex-shrink-0 w-64 p-4 text-white bg-neutral-800">
+    <aside class="flex flex-col flex-shrink-0 lg:w-64 w-52 h-screen p-4 text-white bg-neutral-800">
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center gap-x-2 group mt-6">
         <LogoIcon />
@@ -40,11 +40,11 @@
     </aside>
 
  
-    <main class="flex-1 p-6 md:p-10">
+    <main class="flex-1 p-2 lg:p-6 ">
       <div class="container mx-auto">
         <h1 class="mb-8 text-3xl font-bold text-text-primary">{{ activeViewTitle }}</h1>
 
-        <div class="p-6 rounded-lg">
+        <div class="lg:p-6 p-2 rounded-lg">
           <slot></slot>
         </div>
       </div>
