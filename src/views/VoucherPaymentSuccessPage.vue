@@ -1,10 +1,10 @@
 <template>
   <div
-    class="bg-background-subtle min-h-screen flex flex-col items-center justify-center p-4 text-center"
+    class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-background-subtle"
   >
     <div class="max-w-lg">
       <div
-        class="mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-primary-100 mb-6"
+        class="flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-full bg-primary-100"
       >
         <svg
           class="w-12 h-12 text-primary-600"
@@ -26,18 +26,18 @@
         We have successfully located your transaction. Below are the details for your records.
       </p>
 
-      <div class="mt-8 bg-white p-6 rounded-lg border border-gray-200 text-left space-y-4">
-        <h2 class="font-semibold text-text-primary text-center mb-4">Transaction Status</h2>
+      <div class="p-6 mt-8 space-y-4 text-left bg-white border border-gray-200 rounded-lg">
+        <h2 class="mb-4 font-semibold text-center text-text-primary">Transaction Status</h2>
         <div class="flex justify-between">
           <span class="text-neutral-600">Reference ID:</span>
           <span class="font-semibold text-text-primary">{{ verificationResult?.ref }}</span>
         </div>
         <div class="flex justify-between">
           <span class="text-neutral-600">Amount Paid:</span>
-          <span class="font-semibold text-text-primary">R {{ verificationResult?.amount }}</span>
+          <span class="font-semibold text-text-primary">TZS {{ verificationResult?.amount }}</span>
         </div>
 
-        <div class="flex justify-between items-center">
+        <div class="flex items-center justify-between">
           <span class="text-neutral-600">Status:</span>
         <span
   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
@@ -57,7 +57,7 @@
       <div class="mt-8">
         <RouterLink
           to="/verify-payment"
-          class="px-8 py-3 text-base font-semibold rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm"
+          class="px-8 py-3 text-base font-semibold text-white transition-colors rounded-lg shadow-sm bg-primary-600 hover:bg-primary-700"
         >
           Verify Another Payment
         </RouterLink>

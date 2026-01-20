@@ -49,8 +49,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-// import { allVouchers } from '@/data/voucherData'
-import { categories, getSlugsForParentCategory } from '@/data/categoryData'
+import { categories } from '@/data/categoryData'
 import NavigationBar from '@/components/NavigationBar.vue'
 import HeroBanner from '@/components/HeroBanner.vue'
 import CardGrid from '@/components/CardGrid.vue'
@@ -62,7 +61,6 @@ import { useVouchersStore } from '@/stores/vouchers'
 const route = useRoute()
 const router = useRouter()
 const vouchersStore = useVouchersStore()
-
 
 // --- STATE FOR FILTERING ---
 const activeCategorySlug = ref('all')
@@ -83,12 +81,10 @@ interface Voucher {
 
 const allVouchers = ref<Voucher[]>([])
 
-const authToken = localStorage.getItem("auth_token")
+const authToken = localStorage.getItem('auth_token')
 
 const userActions = computed(() => {
-  return authToken
-    ? [{ text: "View Dashboard", url: "/dashboard" }]
-    : navigation.userActions
+  return authToken ? [{ text: 'View Dashboard', url: '/dashboard' }] : navigation.userActions
 })
 
 const fetchVouchersList = async () => {
@@ -118,6 +114,19 @@ watch(
   { immediate: true },
 )
 
+const slugify = (text: string) => {
+  const normalized = text.toLowerCase().trim()
+
+  if (normalized === 'utilities & bills') {
+    return 'utility-bills'
+  }
+
+  return normalized
+    .replace(/&/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+}
+
 const selectCategory = (slug: string) => {
   searchQuery.value = ''
   router.push({ query: { category: slug === 'all' ? undefined : slug } })
@@ -127,21 +136,16 @@ const filteredVouchers = computed(() => {
   let vouchers = allVouchers.value
 
   if (activeCategorySlug.value !== 'all') {
-  
-     if (activeCategorySlug.value === 'utility-bills') {
-      vouchers = vouchers.filter((v) => v.category.name?.includes('Utilities & Bills'))
-    } else {
-      const relevantSlugs = getSlugsForParentCategory(activeCategorySlug.value)
-      vouchers = vouchers.filter((v) => relevantSlugs.includes(v.category.name.toLowerCase()))
-    }
+    vouchers = vouchers.filter((v) => {
+      const voucherParentSlug = slugify(v.category.name)
+      return voucherParentSlug === activeCategorySlug.value
+    })
   }
 
   if (searchQuery.value.trim() !== '') {
-    const lowerCaseQuery = searchQuery.value.toLowerCase()
+    const q = searchQuery.value.toLowerCase()
     vouchers = vouchers.filter(
-      (v) =>
-        v.name.toLowerCase().includes(lowerCaseQuery) ||
-        v.description.toLowerCase().includes(lowerCaseQuery),
+      (v) => v.name.toLowerCase().includes(q) || v.description.toLowerCase().includes(q),
     )
   }
 
@@ -155,7 +159,7 @@ const formattedVouchers = computed(() => {
     image_url: v.image_url,
     description: v.description,
     url: v.url || '#',
-    category: v.category
+    category: v.category,
   }))
 })
 
@@ -174,6 +178,5 @@ const ctaData = [
 
 onMounted(async () => {
   await fetchVouchersList()
-
 })
 </script>

@@ -23,7 +23,7 @@
           <div class="flex flex-col h-full">
             <h3 class="text-2xl font-bold">{{ category.slug }}</h3>
             <p class="mt-auto text-sm opacity-80 group-hover:opacity-100">
-              {{ category.count }} Vouchers
+            {{ category.count }} {{ category.count <= 1 ?  'Voucher' : 'Vouchers' }}
             </p>
           </div>
         </RouterLink>
@@ -116,9 +116,6 @@ const fetchCategoriesList = async () => {
 }
 
 
-
-
-
 const categoryList = computed(() => {
   return rawCategories.value.map((category: any) => {
     const count = allVouchers.value.filter(
@@ -136,9 +133,6 @@ const categoryList = computed(() => {
 onMounted(async () => {
  await fetchVouchersList()
  await fetchCategoriesList()
- 
-console.log(categoryList)
-
 })
 
 

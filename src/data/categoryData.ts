@@ -44,6 +44,12 @@ export const categories: Category[] = [
     description: 'For flights, rides, and accommodations.',
     color: '#4f46e5', // Primary Purple
   },
+    {
+    slug: 'storefront',
+    name: 'Storefront',
+    description: 'For online stores and e-commerce.',
+    color: '#4f46e5', // Primary Purple
+  },
 ]
 
 // Helper function to get all child slugs for a parent category
