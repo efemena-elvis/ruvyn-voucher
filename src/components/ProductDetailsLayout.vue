@@ -1,13 +1,13 @@
 <template>
   <section class="bg-background-default">
-    <div class="container mx-auto px-6 py-16">
+    <div class="container px-6 py-16 mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-10">
         <!-- Left Column: Image Gallery -->
         <div>
           <img
             :src="imageUrl"
             :alt="voucherTitle"
-            class="w-full rounded-xl shadow-lg aspect-video object-cover"
+            class="object-cover w-full shadow-lg rounded-xl aspect-video"
           />
         </div>
 
@@ -17,18 +17,18 @@
           <div class="flex items-center gap-x-4">
            
             <div>
-              <h1 class="text-4xl font-extrabold text-text-primary -mt-1">{{ brandName }}</h1>
+              <h1 class="-mt-1 text-4xl font-extrabold text-text-primary">{{ brandName }}</h1>
               <h2 class="text-lg font-semibold text-text-secondary">{{ voucherTitle }}</h2>
               
             </div>
           </div>
 
-          <p class="mt-6 text-lg text-text-secondary leading-relaxed">{{ description }}</p>
+          <p class="mt-6 text-lg leading-relaxed text-text-secondary">{{ description }}</p>
 
           <!-- Price/Amount Selector -->
           <div class="mt-8">
-            <label class="block text-sm font-semibold text-text-primary mb-2">Choose Amount</label>
-            <div class="flex flex-wrap gap-3 items-center">
+            <label class="block mb-2 text-sm font-semibold text-text-primary">Choose Amount</label>
+            <div class="flex flex-wrap items-center gap-3">
               <button
                 v-for="option in priceOptions"
                 :key="option"
@@ -44,14 +44,14 @@
               </button>
 
               <div v-if="allowsCustomAmount" class="relative">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">R</span>
+                <span class="absolute -translate-y-1/2 left-3 top-1/2 text-neutral-400">TSh</span>
                 <input
                   type="number"
                   placeholder="Custom"
                   v-model="customAmountValue"
                   @focus="selectCustomAmount"
                   @input="selectCustomAmount"
-                  class="w-32 px-6 py-3 pl-7 border-2 rounded-lg transition-colors focus:border-primary-500 focus:outline-none"
+                  class="py-3 pl-10 transition-colors border-2 rounded-lg w-36 focus:border-primary-500 focus:outline-none"
                   :class="isCustomAmountActive ? 'border-primary-600' : 'border-neutral-300'"
                 />
               </div>
@@ -59,15 +59,15 @@
           </div>
 
           <!-- Action Button -->
-          <div class="mt-auto pt-8">
+          <div class="pt-8 mt-auto">
             <button
               @click="handleCheckout"
               :disabled="selectedAmount <= 0"
-              class="w-full py-4 text-lg font-semibold rounded-lg bg-primary-600 text-text-on-primary hover:bg-primary-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:bg-neutral-300 disabled:cursor-not-allowed"
+              class="w-full py-4 text-lg font-semibold transition-colors rounded-lg shadow-sm bg-primary-600 text-text-on-primary hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:bg-neutral-300 disabled:cursor-not-allowed"
             >
               {{ ctaText }}
             </button>
-            <p class="mt-4 text-xs text-text-secondary text-center">{{ terms }}</p>
+            <p class="mt-4 text-xs text-center text-text-secondary">{{ terms }}</p>
           </div>
         </div>
       </div>
@@ -119,8 +119,8 @@ const handleCheckout = () => {
   }
 }
 
-const formatCurrency = (amount: number, currencyCode: string = 'ZAR') => {
-  return new Intl.NumberFormat('en-ZA', {
+const formatCurrency = (amount: number, currencyCode: string = 'TZS') => {
+  return new Intl.NumberFormat('en-TZ', {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 0,

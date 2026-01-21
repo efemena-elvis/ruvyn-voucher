@@ -14,7 +14,7 @@
           <p class="font-bold text-text-primary">{{ voucher.voucher.brand.name }}</p>
           <p class="text-sm text-text-secondary">Expires: {{ new Date(voucher?.expires_at).toLocaleDateString("en-GB" ) }}</p>
         </div>
-        <RouterLink :to="`/voucher/${voucher.ID}`" class="mt-4 sm:mt-0">
+        <RouterLink :to="`/voucher/${voucher.code}`" class="mt-4 sm:mt-0">
           <button
             class="px-4 py-2 text-sm font-semibold rounded-lg bg-primary-100 text-primary-600 hover:bg-primary-200"
           >

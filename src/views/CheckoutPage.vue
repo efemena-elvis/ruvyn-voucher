@@ -12,7 +12,7 @@
         :subtotal="order.subtotal"
         :fees="order.fees"
         :total="order.total"
-        currency="ZAR"
+        currency="TZS"
       />
 
       <!-- Primary Action -->
@@ -51,7 +51,6 @@ const route = useRoute()
 const vouchersStore = useVouchersStore()
 const paymentStore = usePaymentStore()
 
-
 const fetchSingleVoucher = async (id: number | string) => {
   try {
     const response = await vouchersStore.getSingleVoucher(id)
@@ -69,6 +68,8 @@ onMounted(async () => {
 
   if (!isNaN(voucherId) && !isNaN(amount)) {
     const voucher = await fetchSingleVoucher(voucherId)
+    localStorage.setItem('voucher_id', voucherId.toString())
+    localStorage.setItem('voucher_amount', amount.toString())
 
     if (voucher) {
       const fees = Math.round(amount * 0.05)
@@ -104,15 +105,12 @@ const proceedToPayment = async () => {
           window.location.href = response.data.payment_details.payment_link
         },
       })
-    }
-    else if (response.data.error === "Invalid or expired token"){
-      toast.error("Invalid or expired Token. Please sign in again." , {
+    } else if (response.data.error === 'Invalid or expired token') {
+      toast.error('Invalid or expired Token. Please sign in again.', {
         autoClose: 3000,
         position: toast.POSITION.TOP_RIGHT,
       })
-    }
-    
-    else {
+    } else {
       toast.error(response.data.error || 'Checkout failed', {
         autoClose: 3000,
         position: toast.POSITION.TOP_RIGHT,

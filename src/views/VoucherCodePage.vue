@@ -98,7 +98,7 @@ const fetchPurchasedVouchers = async () => {
 }
 
 const voucher = computed<VoucherType | undefined>(() =>
-  purchasedVouchers.value.find((v) => String(v.ID) === String(route.params.id)),
+  purchasedVouchers.value.find((v) => String(v.code) === String(route.params.id)),
 )
 
 onMounted(async () => {
