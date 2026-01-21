@@ -8,7 +8,7 @@
       <template #actions>
         <div class="flex flex-col gap-4 sm:flex-row">
           <RouterLink
-            to="`/checkout?a"
+            to="`/dashboard"
             class="w-full px-8 py-3 text-base font-semibold transition-colors rounded-lg shadow-sm sm:w-auto bg-primary-600 text-text-on-primary hover:bg-primary-700"
           >
            Go to Dashboard
