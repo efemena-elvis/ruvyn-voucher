@@ -8,10 +8,10 @@
       <template #actions>
         <div class="flex flex-col gap-4 sm:flex-row">
           <RouterLink
-            to="`/dashboard"
+            :to="`/checkout/?voucherId=${voucher.id}&amount=${voucher.amount}`"
             class="w-full px-8 py-3 text-base font-semibold transition-colors rounded-lg shadow-sm sm:w-auto bg-primary-600 text-text-on-primary hover:bg-primary-700"
           >
-           Go to Dashboard
+            Try again
           </RouterLink>
           <RouterLink
             to="/"
@@ -27,8 +27,16 @@
 
 <script setup lang="ts">
 import StatusDisplay from '@/components/StatusDisplay.vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
+const voucher = ref({
+  amount: null as string | null,
+  id: null as string | null,
+})
 
-
+onMounted(() => {
+  voucher.value.amount = localStorage.getItem('voucher_amount')
+  voucher.value.id = localStorage.getItem('voucher_id')
+})
 </script>
