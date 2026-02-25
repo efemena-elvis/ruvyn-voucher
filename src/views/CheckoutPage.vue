@@ -12,7 +12,7 @@
         :subtotal="order.subtotal"
         :fees="order.fees"
         :total="order.total"
-        currency="TZS"
+        currency="ZAR"
       />
 
       <!-- Primary Action -->

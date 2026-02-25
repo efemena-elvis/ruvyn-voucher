@@ -19,7 +19,7 @@
       </div>
       <div class="mb-4">
         <p class="text-gray-600">Amount</p>
-        <p class="text-lg font-semibold">TZS {{ voucher?.amount }}</p>
+        <p class="text-lg font-semibold">ZAR {{ voucher?.amount }}</p>
       </div>
       <div class="mb-4">
         <p class="text-gray-600">Expiry Date</p>
@@ -35,7 +35,9 @@
       </div>
       <div class="mb-6">
         <p class="text-gray-600">Your Code</p>
-        <div class="flex flex-col items-start justify-between gap-4 p-3 bg-gray-100 rounded-lg lg:items-center lg:gap-0 lg:flex-row">
+        <div
+          class="flex flex-col items-start justify-between gap-4 p-3 bg-gray-100 rounded-lg lg:items-center lg:gap-0 lg:flex-row"
+        >
           <span class="font-mono text-sm font-bold lg:text-md text-primary-600">
             {{ voucher?.code }}
           </span>
