@@ -54,7 +54,7 @@ const props = defineProps<{
 // A simple formatter to display currency correctly.
 // This logic is self-contained within the component.
 const formatCurrency = (amount: number, currencyCode: string = 'ZAR') => {
-  return new Intl.NumberFormat('en-ZA', {
+  return new Intl.NumberFormat('en-SA', {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 0,

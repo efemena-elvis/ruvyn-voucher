@@ -34,23 +34,23 @@
         </div>
         <div class="flex justify-between">
           <span class="text-neutral-600">Amount Paid:</span>
-          <span class="font-semibold text-text-primary">TZS {{ verificationResult?.amount }}</span>
+          <span class="font-semibold text-text-primary">ZAR {{ verificationResult?.amount }}</span>
         </div>
 
         <div class="flex items-center justify-between">
           <span class="text-neutral-600">Status:</span>
-        <span
-  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-  :class="{
-    'bg-green-100 text-green-800': verificationResult?.status === 'completed' || verificationResult?.status === 'paid',
-    'bg-red-100 text-red-800': verificationResult?.status === 'failed',
-    'bg-yellow-100 text-yellow-800': verificationResult?.status === 'pending',
-    'bg-gray-100 text-gray-800': !verificationResult?.status 
-  }"
->
-  {{ verificationResult?.status }}
-</span>
-
+          <span
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+            :class="{
+              'bg-green-100 text-green-800':
+                verificationResult?.status === 'completed' || verificationResult?.status === 'paid',
+              'bg-red-100 text-red-800': verificationResult?.status === 'failed',
+              'bg-yellow-100 text-yellow-800': verificationResult?.status === 'pending',
+              'bg-gray-100 text-gray-800': !verificationResult?.status,
+            }"
+          >
+            {{ verificationResult?.status }}
+          </span>
         </div>
       </div>
 
@@ -67,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { RouterLink } from 'vue-router'
 
 import { usePaymentStore } from '@/stores/payment'

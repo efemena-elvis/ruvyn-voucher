@@ -44,14 +44,14 @@
               </button>
 
               <div v-if="allowsCustomAmount" class="relative">
-                <span class="absolute -translate-y-1/2 left-3 top-1/2 text-neutral-400">TSh</span>
+                <span class="absolute -translate-y-1/2 left-3 top-1/2 text-neutral-400">ZAR</span>
                 <input
                   type="number"
                   placeholder="Custom"
                   v-model="customAmountValue"
                   @focus="selectCustomAmount"
                   @input="selectCustomAmount"
-                  class="py-3 pl-10 transition-colors border-2 rounded-lg w-36 focus:border-primary-500 focus:outline-none"
+                  class="py-3 pl-12 transition-colors border-2 rounded-lg w-36 focus:border-primary-500 focus:outline-none"
                   :class="isCustomAmountActive ? 'border-primary-600' : 'border-neutral-300'"
                 />
               </div>
@@ -119,8 +119,8 @@ const handleCheckout = () => {
   }
 }
 
-const formatCurrency = (amount: number, currencyCode: string = 'TZS') => {
-  return new Intl.NumberFormat('en-TZ', {
+const formatCurrency = (amount: number, currencyCode: string = 'ZAR') => {
+  return new Intl.NumberFormat('en-SA', {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 0,
