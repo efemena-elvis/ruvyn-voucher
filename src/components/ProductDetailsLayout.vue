@@ -45,6 +45,7 @@
 
               <div v-if="allowsCustomAmount" class="relative">
                 <span class="absolute -translate-y-1/2 left-3 top-1/2 text-neutral-400">ZAR</span>
+
                 <input
                   type="number"
                   placeholder="Custom"
